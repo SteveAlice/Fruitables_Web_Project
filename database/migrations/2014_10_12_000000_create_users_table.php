@@ -13,18 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description')->default("Buy clean food at Fruitables, fast delivery - healthy food - fresh - clear origin.");
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
-            $table->decimal('price', 8, 2)->default(3.12);
-            $table->string('image')->default('fruite-item-6.jpg');
-            $table->integer('stock')->unsigned()->default(0);
-            $table->string('unit')->default('kg');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -36,10 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
-        });
-        Schema::dropIfExists('products');
-        
+        Schema::dropIfExists('users');
     }
 };

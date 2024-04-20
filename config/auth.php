@@ -17,6 +17,18 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
+    'admin' => [
+        'driver' => 'eloquent',
+        'model'  => App\Models\Admin::class,
+    ],
+    'client' => [
+        'driver' => 'eloquent',
+        'model'  => App\Models\Client::class,
+    ],
+    'seller' => [
+        'driver' => 'eloquent',
+        'model'  => App\Models\Seller::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -39,6 +51,18 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+        'client' => [
+            'driver' => 'session',
+            'provider' => 'clients',
+        ],
+        'seller' => [
+            'driver' => 'session',
+            'provider' => 'sellers',
         ],
     ],
 
@@ -63,6 +87,18 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'clients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Client::class,
+        ],
+        'sellers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Seller::class,
         ],
 
         // 'users' => [
@@ -93,7 +129,20 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'clients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Client::class,
+        ],
+        'sellers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Seller::class,
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ControllerProducts;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ControllerProducts;
 
 
 
@@ -17,6 +18,12 @@ use App\Http\Controllers\CartController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Route::view('/example-page','example-page');
+Route::view('/example-auth','example-auth');
+Route::view('/example-page','example-page');
+
+
 Route::get('cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 
@@ -45,9 +52,9 @@ Route::name('users.')->group(function () {
 });
 
 
-Route::prefix('/admin')->group(function () {
+// Route::prefix('/admin')->group(function () {
 
-});
+// });
 
 
 
