@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ControllerProducts;
 use App\Http\Controllers\CartController;
 
 
@@ -20,10 +19,10 @@ use App\Http\Controllers\CartController;
 Route::get('cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 
-Route::resource('/product', ProductController::class);
 
-Route::get('/', function () {
-    return view('/clients/home');
+Route::get('/', [ProductController::class,'index'])->name('home');
+Route::get('/shopdetail', function () {
+    return view('/clients/shop-detail');
 });
 
 Route::name('users.')->group(function () {
@@ -36,11 +35,10 @@ Route::name('users.')->group(function () {
     Route::get('/contact', function () {
         return view('/clients/contact');
     });
-    Route::get('/shop-detail', function () {
-        return view('/clients/shop-detail');
-    });
+    Route::get('/product/{id}',[ProductController::class, 'showDetail']);
+    
     Route::get('/checkout', function () {
-        return view('/clients/checkout');
+        return view('/clients/chackout');
     });
 });
 
@@ -48,6 +46,9 @@ Route::name('users.')->group(function () {
 Route::prefix('/admin')->group(function () {
 
 });
+
+
+
 
 
 

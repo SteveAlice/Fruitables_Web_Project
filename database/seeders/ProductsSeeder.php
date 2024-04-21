@@ -21,7 +21,7 @@ class ProductsSeeder extends Seeder
       DB::table('products')->insert([
         'name' => Str::random(10) . $i,
         // 'description' => 'default_description',
-        'category_id' => rand(1, 5),
+        'category_id' => rand(1, 10),
         'price' => rand(5, 100),
         'image' => 'fruite-item-' . rand(1, 6) . '.jpg',
         'stock' => rand(0, 100),
