@@ -73,12 +73,13 @@ class AdminController extends Controller
         //Generate token | Tạo token ngẫu nhiên dưới dạng chuỗi base64
         $token = base64_encode(Str::random(64));
 
-        //
+        //xử lý quá trình cập nhật hoặc thêm mới token đặt lại mật khẩu trong cơ sở dữ liệu.
+        //đoạn mã này kiểm tra xem có token đặt lại mật khẩu hiện tại cho người dùng đã tồn tại hay chưa.
         $oldToken = DB::table('password_reset_tokens')
             ->where(['email' => $request->email, 'guard' => constGuards::ADMIN])
             ->first();
 
-        if($oldToken){
+        if($oldToken){  //Nếu đã tồn tại, nó sẽ cập nhật token đó với một token mới và thời gian tạo mới nhất.
             //Update token
             DB::table('password_reset_tokens')
             ->where(['email'=> $request->email,'guard'=>constGuards::ADMIN])
@@ -86,7 +87,7 @@ class AdminController extends Controller
                 'token' => $token,
                 'created_at' => Carbon::now()
             ]);
-        }else{
+        }else{ //Nếu không tồn tại, nó sẽ thêm một bản ghi mới vào bảng để lưu trữ token đặt lại mật khẩu mới cho người dùng.
             //Add new token
             DB::table('password_reset_tokens')->insert([
                 'email' => $request->email,
@@ -95,25 +96,26 @@ class AdminController extends Controller
                 'created_at' => Carbon::now()
             ]);
         }
+        //Mã này được sử dụng để chuẩn bị nội dung email để gửi liên kết đặt lại mật khẩu cho người dùng.
+        $actionLink = route('admin.reset-password',['token' =>$token,'email' =>$request->email]);  //Tạo liên kết đặt lại mật khẩu
 
-        $actionLink = route('admin.reset-password',['token' =>$token,'email' =>$request->email]);
-
-        $data = array(
+        $data = array(  //Chuẩn bị dữ liệu cho email
             'actionLink' => $actionLink,
             'admin' => $admin
         );
 
-        $mail_body = view('email-templates.admin-forget-email-template', $data)->render();
+        $mail_body = view('email-templates.admin-forget-email-template', $data)->render(); //Template này sẽ được sử dụng để hiển thị nội dung email, trong đó sẽ chứa liên kết đặt lại mật khẩu và thông tin người dùng.
+
 
         $mailConfig = array(
-            'mail_from_email' => env('MAIL_FROM_ADDRESS'),
-            'mail_from_name' => env('MAIL_FROM_NAME'),
-            'mail_recipient_email' =>$admin->email,
-            'mail_recipient_name' =>$admin->name,
-            'mail_subject' => 'Reset your password',
-            'mail_body' => $mail_body
+            'mail_from_email' => env('MAIL_FROM_ADDRESS'), // Địa chỉ email người gửi.
+            'mail_from_name' => env('MAIL_FROM_NAME'), //Tên người gửi.
+            'mail_recipient_email' =>$admin->email, //Địa chỉ email người nhận.
+            'mail_recipient_name' =>$admin->name,   // Tên người nhận.
+            'mail_subject' => 'Reset your password',  //Chủ đề của email
+            'mail_body' => $mail_body  //Nội dung của email, được render từ một template,  sử dụng hàm view() và truyền vào dữ liệu $data
         );
-
+        // sử dụng session flash để hiển thị thông báo thành công hoặc thất bại cho người dùng sau khi thực hiện hành động gửi email. 
         if( sendEmail($mailConfig)){
             session()->flash('success', 'We have e-mailed your password reset link.');
             return redirect()->route('admin.forgot-password');

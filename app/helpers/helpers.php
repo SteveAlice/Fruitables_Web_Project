@@ -14,17 +14,17 @@ if ( !function_exists('sendEmail') ){
 
         $mail = new PHPMailer(true);
         $mail ->SMTPDebug = 0;
-        $mail->isSMTP();
-        $mail->Host       = env('MAIL_HOST');
-        $mail->SMTPAuth   = true;
-        $mail->Port       = env('MAIL_PORT');                        //
-        $mail->Username   = env('MAIL_USERNAME');                   //
-        $mail->Password   = env('MAIL_PASSWORD');                   //
-        $mail->SMTPSecure = env('MAIL_ENCRYPTION');                 //
+        $mail->isSMTP();                                            //
+        $mail->Host       = env('EMAIL_HOST');                      //
+        $mail->SMTPAuth   = true;                                   //
+        $mail->Username   = env('EMAIL_USERNAME');                   //
+        $mail->Password   = env('EMAIL_PASSWORD');                   //
+        $mail->SMTPSecure = env('EMAIL_ENCRYPTION');                 //
+        $mail->Port       = env('EMAIL_PORT');                       //
            //Recipients
-        $mail->setFrom($mailConfig['mail_from_email'], $mailConfig['mail_from_name']);
-        $mail->addAddress($mailConfig['mail_recipient_email'],$mailConfig['mail_recipient_name']);                 //
-        $mail->isHTML(true);                                      //
+        $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        $mail->addAddress($mailConfig['mail_recipient_email'],$mailConfig['mail_recipient_name']);
+        $mail->isHTML(true);
         $mail->Subject = $mailConfig['mail_subject'];
         $mail->Body = $mailConfig['mail_body'];
         if($mail->send()){
