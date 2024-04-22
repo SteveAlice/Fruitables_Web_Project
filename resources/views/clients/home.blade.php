@@ -61,7 +61,7 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="{{ url('')}}" class="nav-item nav-link active">Home</a>
+                            <a href="{{ url('/')}}" class="nav-item nav-link active">Home</a>
                             <a href="{{ url('/shop')}}" class="nav-item nav-link">Shop</a>
                             <a href="{{ url('/shopdetail')}} " class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
