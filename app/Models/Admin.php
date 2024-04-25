@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Authenticatable
 {
@@ -44,4 +45,15 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //Phương thức getPictureAttribute trong đoạn mã là một trường tính ảo (accessor) của model Admin
+    // Truy cập thuộc tính picture của một đối tượng Admin, phương thức này sẽ được tự động gọi để xử lý giá trị trước khi nó được trả về.
+    public function getPictureAttribute($value){
+        if( $value){
+            return asset('/images/users/admins'.$value);
+        }else{
+            return asset('/images/users/default-avatar.png');
+        }
+    }
 }
+
