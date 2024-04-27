@@ -2,10 +2,11 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use App\Models\GeneralSetting;
 
 // SEND MAIL FUNCTION USING PHPMAILER LIBRARY.
 
-if ( !function_exists('sendEmail') ){
+if (!function_exists('sendEmail')) {
     function sendEmail($mailConfig)
     {
         require 'PHPMailer/src/Exception.php';
@@ -13,7 +14,7 @@ if ( !function_exists('sendEmail') ){
         require 'PHPMailer/src/SMTP.php';
 
         $mail = new PHPMailer(true);
-        $mail ->SMTPDebug = 0;
+        $mail->SMTPDebug = 0;
         $mail->isSMTP();                                            //
         $mail->Host       = env('EMAIL_HOST');                      //
         $mail->SMTPAuth   = true;                                   //
@@ -21,16 +22,37 @@ if ( !function_exists('sendEmail') ){
         $mail->Password   = env('EMAIL_PASSWORD');                   //
         $mail->SMTPSecure = env('EMAIL_ENCRYPTION');                 //
         $mail->Port       = env('EMAIL_PORT');                       //
-           //Recipients
+        //Recipients
         $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-        $mail->addAddress($mailConfig['mail_recipient_email'],$mailConfig['mail_recipient_name']);
+        $mail->addAddress($mailConfig['mail_recipient_email'], $mailConfig['mail_recipient_name']);
         $mail->isHTML(true);
         $mail->Subject = $mailConfig['mail_subject'];
         $mail->Body = $mailConfig['mail_body'];
-        if($mail->send()){
+        if ($mail->send()) {
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+}
+
+/** GET GENERAL SETTINGS **/
+if (!function_exists('get_settings')) {
+    function get_settings(){
+        $results = null;
+        $settings = new GeneralSetting();
+        $settings_data = $settings->first();
+
+        if ($settings_data) {
+            $results = $settings_data;
+        } else {
+            $settings->insert([
+                'site_name' => 'fruitshop',
+                'site_email' => 'quanhs0971@gmail.com'
+            ]);
+            $new_settings_data = $settings->first();
+            $results = $new_settings_data;
+        }
+        return $results;
     }
 }
