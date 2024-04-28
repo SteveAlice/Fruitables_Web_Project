@@ -23,11 +23,10 @@ use App\Http\Controllers\ControllerProducts;
 Route::view('/example-auth','example-auth');
 Route::view('/example-page','example-page');
 
+// Route::get('cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+// Route::get('product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 
-Route::get('cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-Route::get('product/show/{id}', [ProductController::class, 'show'])->name('product.show');
-
-Route::resource('/product', ProductController::class);
+// Route::resource('/product', ProductController::class);
 
 Route::get('/', function () {
     return view('/clients/home');

@@ -57,8 +57,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Site meta description</label>
-                            <textarea name="" id="" cols="4" rows="4" placeholder="Site meta desc..."
-                            class="form-control" wire:model.defer='site_meta_description'></textarea>
+                            <textarea name="" id="" cols="4" rows="4" placeholder="Site meta desc..." class="form-control" wire:model.defer='site_meta_description'></textarea>
                             @error('site_meta_description') <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -68,7 +67,27 @@
             </div>
             <div class="tab-pane fade {{ $tab == 'logo_favicon' ? 'active show' : ''}}" id="logo_favicon" role="tabpanel">
                 <div class="pd-20">
-                    -------Logo & Favicon---------
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Site logo</h5>
+                            <div class="mb-2 mt-1" style="max-width: 200px;">
+                                <img wire:ignore src="/images/site/{{ $site_logo }}" class="img-thumbnail"
+                                data-ijabo-default-img="/images/site{{ $site_logo }}" id="site_logo_image_preview">
+                                <!-- <img src="" id="site_logo_image_preview" class="img-thumbnail"> -->
+                            </div>
+                            <form action="{{route('admin.change-logo')}}" method="post" enctype="multipart/form-data" id="change_site_logo_form">
+                                @csrf
+                                <div class="mb-2">
+                                    <input type="file" name="site_logo" id="site_logo" class="form-control">
+                                    <span class="text-danger error-text site_logo_error"></span>
+                                </div>
+                                <button type="button" class="btn btn-primary">Change Logo</button>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade {{ $tab == 'social_networks' ? 'active show' : ''}}" id="social_networks" role="tabpanel">

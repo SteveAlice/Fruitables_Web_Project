@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
+use App\Models\GeneralSetting;
 
 class AdminController extends Controller
 {
@@ -227,6 +228,30 @@ class AdminController extends Controller
             return response()->json(['status'=>1,'msg'=>'Your profile picture has been successfully updated.']);
         }else{
             return response()->json(['status'=>0,'msg'=>'Something went wrong.']);
+        }
+    }
+
+    public function changeLogo(Request $request){
+        $path = 'images/site/';
+        $file = $request->file('site_logo');
+        $settings =new GeneralSetting();
+        $old_logo = $settings->first()->site_logo;
+        $file_path = $path.$old_logo;
+        $filename = 'LOGO_'.uniqid().'.'.$file->getClientOriginalExtension();
+
+        $upload = $file->move(public_path($path), $filename);
+        if($upload){
+            if( $old_logo != null && File::exists(public_path($path.$old_logo))) {
+                File::delete(public_path($path.$old_logo));
+            }
+            $settings = $settings->first();
+            $settings->site_logo =$filename;
+            $update = $settings->save();
+
+            return response()->json(['status' => 1,'msg'=>'Site logo has been updated successfully!']);
+
+        }else{
+            return response()->json(['status' => 0,'msg' => 'Something went wrong!']);
         }
     }
 }
