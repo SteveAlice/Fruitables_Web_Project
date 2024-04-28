@@ -254,4 +254,27 @@ class AdminController extends Controller
             return response()->json(['status' => 0,'msg' => 'Something went wrong!']);
         }
     }
+
+    public function changeFavicon(Request $request){
+        $path = 'images/site/';
+        $file = $request->file('site_favicon');
+        $settings =new GeneralSetting();
+        $old_favicon = $settings->first()->site_favicon;
+        $file_path = $path.$old_favicon;
+        $filename = 'FAV_'.uniqid().'.'.$file->getClientOriginalExtension();
+
+        $upload =$file->move(public_path($path), $filename);
+        if ($upload) {
+            if($old_favicon != null && File::exists(public_path($file_path ))){
+                File::delete(public_path($file_path ));
+            }
+            $settings = $settings->first();
+            $settings->site_favicon = $filename;
+            $update = $settings->save();
+            return response()->json([
+                "status" => "1", 'msg' => 'Done, site favicon has been updated successfully.']);
+        }else{
+            return response()->json(['status' => 0,'Something went wrong!']);
+        }
+    }
 }

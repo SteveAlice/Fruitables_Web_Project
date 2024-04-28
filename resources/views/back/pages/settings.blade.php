@@ -91,5 +91,49 @@
             $(form).find('span.error-text').text('Please select a file image PNG, JPG, JNPG, to upload.');
         }
     });
+
+    $('input[type="file"][name="site_favicon"][id="site_favicon"]').ijaboViewer({
+        preview:'#site_favicon_image_preview',
+        imageShape:'square',
+        allowedExtensions :['png'],
+        onErrorShape:function(message, element){
+            alert(message);
+        },
+        onInvalidType:function(message, element){
+            alert(message);
+        },
+        onSuccess:function(message, element){}
+    });
+
+    $('#change_site_favicon_form').on('submit', function(e){
+        e.preventDefault();
+        var form = this;
+        var formdata = new FormData();
+        var inputFileVal = $(form).find('input[type="file"][name="site_favicon"]').val();
+
+        if( inputFileVal.length > 0 ){
+            $.ajax({
+                url:$(form).attr('action'),
+                method:$(form).attr('method'),
+                data:formdata,
+                processData: false,
+                dataType:'json',
+                contentType:false,
+                beforeSend:function(){
+                    $(form).findI('span.error-text').text('');
+                },
+                success:function(response){
+                    if( response.status == 1){
+                        toastr.success(response.msg);
+                        $(form)[0].reset();
+                    }else{
+                        toastr.error(response.msg);
+                    }
+                }
+            });
+        }else{
+            $(form).find('span.error-text').text('Please, sellect favicon image file.PNG file type is recommended.');
+        }
+    });
 </script>
 @endpush
