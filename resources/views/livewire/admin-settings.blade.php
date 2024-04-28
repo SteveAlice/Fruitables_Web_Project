@@ -105,7 +105,69 @@
             </div>
             <div class="tab-pane fade {{ $tab == 'social_networks' ? 'active show' : ''}}" id="social_networks" role="tabpanel">
                 <div class="pd-20">
-                    -----------Social & Network-----------------
+                    <form wire:submit.prevent='updateSocialNetworks()' >
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><b>Enter Facebook URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer='facebook_url' placeholder="Enter facebook url">
+                                    @error('facebook_url')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><b>Enter Twitter URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer='twitter_url' placeholder="Enter twitter url">
+                                    @error('twitter_url')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><b>Enter Instagram URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer='instagram_url' placeholder="Enter instagram url">
+                                    @error('instagram_url')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><b>Enter Youtube URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer='youtube_url' placeholder="Enter youtube url">
+                                    @error('youtube_url')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><b>Enter Github URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer='github_url' placeholder="Enter github url">
+                                    @error('github_url')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><b>Enter LinkedIn URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer='linkedin_url' placeholder="Enter linkedin url">
+                                    @error('linkedin_url')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="tab-pane fade {{ $tab == 'payment_methods' ? 'active show' : ''}}" id="payment_methods" role="tabpanel">

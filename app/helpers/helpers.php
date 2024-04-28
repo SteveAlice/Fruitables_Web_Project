@@ -3,6 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use App\Models\GeneralSetting;
+use App\Models\SocialNetwork;
 
 // SEND MAIL FUNCTION USING PHPMAILER LIBRARY.
 
@@ -54,5 +55,30 @@ if (!function_exists('get_settings')) {
             $results = $new_settings_data;
         }
         return $results;
+    }
+}
+
+/** GET SOCIAL NETWORK**/
+if(!function_exists('get_social_networks')){
+    function get_social_networks(){
+        $results =null;
+        $social_network = new SocialNetwork();
+        $social_network_data = $social_network->first();
+
+        if($social_network_data){
+            $results =  $social_network_data;
+        }else{
+            $social_network->insert([
+                'facebook_url' => null,
+                'twitter_url'=>null,
+                'instagram_url'=>null,
+                'youtube_url'=>null,
+                'github_url' => null,
+                'linkedin_url'=>null
+            ]);
+            $new_social_network_data = $social_network->first();
+            $results = $new_social_network_data;
+        }
+        return  $results;
     }
 }
