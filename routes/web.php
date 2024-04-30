@@ -19,42 +19,38 @@ use App\Http\Controllers\ControllerProducts;
 |
 */
 
-// Route::view('/example-page','example-page');
-Route::view('/example-auth','example-auth');
-Route::view('/example-page','example-page');
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::view('/example-auth', 'example-auth');
+Route::view('/example-page', 'example-page');
+Route::view('/example-frontend', 'example-frontend');
+
+
 
 // Route::get('cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 // Route::get('product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 
 // Route::resource('/product', ProductController::class);
 
-Route::get('/', function () {
-    return view('/clients/home');
-});
-
-Route::name('users.')->group(function () {
-    Route::get('/shop', function () {
-        return view('/clients/shop');
-    });
-    Route::get('/cart', function () {
-        return view('/clients/cart');
-    });
-    Route::get('/contact', function () {
-        return view('/clients/contact');
-    });
-    Route::get('/shop-detail', function () {
-        return view('/clients/shop-detail');
-    });
-    Route::get('/checkout', function () {
-        return view('/clients/checkout');
-    });
-});
-
-
-// Route::prefix('/admin')->group(function () {
-
+// Route::get('/', function () {
+//     return view('/clients/home');
 // });
 
-
-
-
+// Route::name('users.')->group(function () {
+//     Route::get('/shop', function () {
+//         return view('/clients/shop');
+//     });
+//     Route::get('/cart', function () {
+//         return view('/clients/cart');
+//     });
+//     Route::get('/contact', function () {
+//         return view('/clients/contact');
+//     });
+//     Route::get('/shop-detail', function () {
+//         return view('/clients/shop-detail');
+//     });
+//     Route::get('/checkout', function () {
+//         return view('/clients/checkout');
+//     });
+// });

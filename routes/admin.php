@@ -3,6 +3,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Models\Admin;
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -24,6 +26,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::view('/settings', 'back.pages.settings')->name('settings');
         Route::post('/change-logo',[AdminController::class,'changeLogo'])->name( 'change-logo' );
         Route::post('/change-favicon',[AdminController::class,'changeFavicon'])->name( 'change-favicon' );
+        //Categories and sub Categories
+        Route::prefix('manage-categories')->name('manage-categories.')->group(function (){
+            Route::controller(CategoriesController::class)->group(function (){
+                Route::get('/', 'catSubcatList')->name('cat-subcats-list');
+            });
+        });
+
     });
 
 });

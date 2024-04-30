@@ -56,6 +56,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="">Site address</label>
+                            <input type="text" class="form-control" placeholder="Enter site address" wire:model.defer="site_address">
+                            @error('site_address')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="">Site meta description</label>
                             <textarea name="" id="" cols="4" rows="4" placeholder="Site meta desc..." class="form-control" wire:model.defer='site_meta_description'></textarea>
                             @error('site_meta_description') <span class="text-danger">{{ $message }}</span>
@@ -65,6 +72,7 @@
                     </form>
                 </div>
             </div>
+            
             <div class="tab-pane fade {{ $tab == 'logo_favicon' ? 'active show' : ''}}" id="logo_favicon" role="tabpanel">
                 <div class="pd-20">
                     <div class="row">

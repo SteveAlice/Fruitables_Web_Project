@@ -12,7 +12,7 @@ class AdminSettings extends Component
     public $tab = null;
     public $default_tab = 'general_settings';
     protected $queryString = ['tab'];
-    public $site_name, $site_email, $site_phone, $site_meta_keywords, $site_meta_description, $site_logo, $site_favicon;
+    public $site_name, $site_email, $site_phone, $site_meta_keywords, $site_meta_description, $site_logo, $site_favicon, $site_address;
     public $facebook_url, $twitter_url, $instagram_url, $youtube_url, $github_url, $linkedin_url;
 
     public function selectTab($tab)
@@ -31,6 +31,7 @@ class AdminSettings extends Component
         $this->site_meta_description = get_settings()->site_meta_description;
         $this->site_logo = get_settings()->site_logo;
         $this->site_favicon = get_settings()->site_favicon;
+        $this->site_address = get_settings()->site_address;
 
         //Populate Social Network
         $this->facebook_url = get_social_networks()->facebook_url;
@@ -53,6 +54,7 @@ class AdminSettings extends Component
         $settings->site_phone = $this->site_phone;
         $settings->site_meta_keywords = $this->site_meta_keywords;
         $settings->site_meta_description = $this->site_meta_description;
+        $settings->site_address = $this->site_address;
 
         if ($settings->save()) {
             $this->showToastr('success', 'General settings have been updated successfully');
