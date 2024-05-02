@@ -32,6 +32,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/', 'catSubcatList')->name('cat-subcats-list');
                 Route::get('/add-category', 'addCategory')->name('add-category');
                 Route::post('/store-category', 'storeCategory')->name('store-category');
+                Route::get('/edit-category', 'editCategory')->name('edit-category');
+                Route::post('/update-category','updateCategory')->name('update-category');
             });
         });
 

@@ -24,9 +24,9 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
+                        <tbody class="table-border-bottom-0" id="sortable_categories">
                             @forelse ($categories as $item)
-                            <tr>
+                            <tr data-index="{{ $item->id }}" data-ordering="{{ $item->ordering }}">
                                 <td>
                                     <div class="avatar mr-2">
                                         <img src="/images/categories/{{$item->category_image}}" alt="" width="50" height="50">
@@ -35,10 +35,11 @@
                                 <td>{{$item->category_name}}</td>
                                 <td>-</td>
                                 <td class="table-actions">
-                                    <a href="#" class="text-primary">
+                                    <a href="{{ route('admin.manage-categories.edit-category',['id'=>$item->id])}}" class="text-primary">
                                         <i class="dw dw-edit2"></i>
                                     </a>
-                                    <a href="#" class="text-danger">
+                                    <a href="javascript:;" class="text-danger deleteCategoryBtn" data-id="{{
+                                    $item->id }}">
                                         <i class="dw dw-delete-3"></i>
                                     </a>
                                 </td>

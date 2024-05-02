@@ -10,9 +10,14 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "axios": "^0.25",
+        "axios": "^1.6.8",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14"
+    },
+    "dependencies": {
+        "socket.io-client": "^4.7.5",
+        "sweetalert": "^2.1.2",
+        "sweetalert2": "^11.6.13"
     }
 }

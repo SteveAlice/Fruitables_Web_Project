@@ -22,8 +22,7 @@
                     <div class="col-md-7">
                         <div class="form-group">
                             <label for="category_name">Category name</label>
-                            <input type="text" class="form-control" name="category_name" id="category_name"
-                            placeholder="Enter Category Name" value="{{ old('category_name') }}">
+                            <input type="text" class="form-control" name="category_name" id="category_name" placeholder="Enter Category Name" value="{{ old('category_name') }}">
                             @error('category_name')
                             <span class="text-danger ml-2">{{ $message }}</span>
                             @enderror
@@ -31,11 +30,14 @@
                     </div>
                     <div class="col-md-7">
                         <div class="form-group">
-                            <label for="">Category Image</label>
+                            <label for="category_image">Category Image</label>
                             <input type="file" class="form-control-file" name="category_image" id="category_image">
                             @error('category_image')
                             <span class="text-danger ml-2">{{ $message }}</span>
                             @enderror
+                        </div>
+                        <div class="avatar mb-3">
+                            <img src="" alt="" data-ijabo-default-img="" id="category_image_preview" width="50" height="50" id="category_image_preview">
                         </div>
                     </div>
                 </div>
@@ -46,3 +48,20 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('input[type="file"][name="category_image"]').change(function() {
+            var input = this;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#category_image_preview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    });
+</script>
+@endpush
