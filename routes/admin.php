@@ -34,6 +34,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('/store-category', 'storeCategory')->name('store-category');
                 Route::get('/edit-category', 'editCategory')->name('edit-category');
                 Route::post('/update-category','updateCategory')->name('update-category');
+                Route::get('/add-subcategory','addSubCategory')->name('add-subcategory');
+                Route::post('/store-subcategory', 'storeSubCategory')->name('store-subcategory');
+
+                Route::get('/edit-subcategory','editSubCategory')->name('edit-subcategory');
+                Route::post('/update-subcategory','updateSubCategory') -> name ('update-subcategory'); 
             });
         });
 

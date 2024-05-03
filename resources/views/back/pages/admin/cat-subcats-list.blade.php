@@ -100,6 +100,69 @@
             }
         });
     });
+    $('table tbody#sortable_subcategories').sortable({
+        cursor: "move",
+        update: function(event, ui) {
+            $(this).children().each(function(index) {
+                if ($(this).attr("data-ordering") != (index + 1)) {
+                    $(this).attr("data-ordering", (index + 1)).addClass("updated");
+                }
+            });
+            var postitions = [];
+            $(".updated").each(function() {
+                postitions.push([$(this).attr("data-index"), $(this).attr("data-ordering")]);
+            });
+            window.livewire.emit("updateSubCategoriesOrdering", postitions);
+        }
+    });
+    $('ul#sortable_child_subcategories').sortable({
+        cursor: "move",
+        update: function(event, ui) {
+            $(this).children().each(function(index) {
+                if ($(this).attr("data-ordering") != (index + 1)) {
+                    $(this).attr("data-ordering", (index + 1)).addClass("updated");
+                }
+            });
+            var postitions = [];
+            $(".updated").each(function() {
+                postitions.push([$(this).attr("data-index"), $(this).attr("data-ordering")]);
+            });
+            window.livewire.emit("updateChildSubCategoriesOrdering", postitions);
+        }
+    });
+
+    $(document).on('click', '.deleteSubCategoryBtn,.deleteChildSubCategoryBtn', function(e) {
+        e.preventDefault();
+        var subcategory_id = $(this).data("id");
+        var title = $(this).data("title");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            html: 'You want to delete this <b>' + title + '</b>',
+            showCloseButton: true,
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, Delete',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            width: 400, // Chỉnh kích thước của hộp thoại
+            icon: 'warning', // Thêm biểu tượng cảnh báo
+            customClass: {
+                title: 'text-danger', // Tùy chỉnh lớp CSS cho tiêu đề
+                content: 'text-dark', // Tùy chỉnh lớp CSS cho nội dung
+                confirmButton: 'btn btn-danger', // Tùy chỉnh lớp CSS cho nút xác nhận
+                cancelButton: 'btn btn-secondary' // Tùy chỉnh lớp CSS cho nút hủy
+            },
+            allowOutsideClick: false
+        }).then(function(result) {
+            if (result.value) {
+                // Thực hiện hành động xóa
+                // alert('Yes, delete sub category');
+                window.livewire.emit('deleteSubCategory', subcategory_id);
+            }
+        });
+
+    })
 </script>
 
 @endpush

@@ -371,7 +371,7 @@
             </div>
             <div class="footer-wrap pd-20 mb-20 card-box">
                 DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+                <a href="https://github.com/SteveAlice/Fruitables_Web_Project.git" target="_blank">Đặng Anh Quân</a>
             </div>
         </div>
     </div>
