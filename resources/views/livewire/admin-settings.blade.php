@@ -20,12 +20,12 @@
         <div class="tab-content">
             <div class="tab-pane fade {{ $tab == 'general_settings' ? 'active show' : ''}}" id="general_settings" role="tabpanel">
                 <div class="pd-20">
-                    <form wire:submit.prevent="updateGeneralSettings()">
+                    <form wire:submit="updateGeneralSettings()">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for=""><b>Site Name</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter your site name" wire:model.defer='site_name'>
+                                    <input type="text" class="form-control" placeholder="Enter your site name" wire:model.live='site_name'>
                                     @error('site_name') <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -33,7 +33,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for=""><b>Site Email</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter site email" wire:model.defer='site_email'>
+                                    <input type="text" class="form-control" placeholder="Enter site email" wire:model.live='site_email'>
                                     @error('site_email') <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -41,7 +41,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for=""><b>Site Phone</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter site phone" wire:model.defer='site_phone'>
+                                    <input type="text" class="form-control" placeholder="Enter site phone" wire:model.live='site_phone'>
                                     @error('site_phone') <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -49,7 +49,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for=""><b>Site meta keywords</b> <small>Separated by comma(a,b,c)</small></label>
-                                    <input type="text" class="form-control" placeholder="Enter your site meta keywords." wire:model.defer='site_meta_keywords'>
+                                    <input type="text" class="form-control" placeholder="Enter your site meta keywords." wire:model.live='site_meta_keywords'>
                                     @error('site_meta_keywords') <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -57,14 +57,14 @@
                         </div>
                         <div class="form-group">
                             <label for="">Site address</label>
-                            <input type="text" class="form-control" placeholder="Enter site address" wire:model.defer="site_address">
+                            <input type="text" class="form-control" placeholder="Enter site address" wire:model.live="site_address">
                             @error('site_address')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="">Site meta description</label>
-                            <textarea name="" id="" cols="4" rows="4" placeholder="Site meta desc..." class="form-control" wire:model.defer='site_meta_description'></textarea>
+                            <textarea name="" id="" cols="4" rows="4" placeholder="Site meta desc..." class="form-control" wire:model.live='site_meta_description'></textarea>
                             @error('site_meta_description') <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -113,12 +113,12 @@
             </div>
             <div class="tab-pane fade {{ $tab == 'social_networks' ? 'active show' : ''}}" id="social_networks" role="tabpanel">
                 <div class="pd-20">
-                    <form wire:submit.prevent='updateSocialNetworks()' >
+                    <form wire:submit='updateSocialNetworks()' >
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for=""><b>Enter Facebook URL</b></label>
-                                    <input type="text" class="form-control" wire:model.defer='facebook_url' placeholder="Enter facebook url">
+                                    <input type="text" class="form-control" wire:model.live='facebook_url' placeholder="Enter facebook url">
                                     @error('facebook_url')
                                         {{ $message }}
                                     @enderror
@@ -127,7 +127,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for=""><b>Enter Twitter URL</b></label>
-                                    <input type="text" class="form-control" wire:model.defer='twitter_url' placeholder="Enter twitter url">
+                                    <input type="text" class="form-control" wire:model.live='twitter_url' placeholder="Enter twitter url">
                                     @error('twitter_url')
                                         {{ $message }}
                                     @enderror
@@ -136,7 +136,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for=""><b>Enter Instagram URL</b></label>
-                                    <input type="text" class="form-control" wire:model.defer='instagram_url' placeholder="Enter instagram url">
+                                    <input type="text" class="form-control" wire:model.live='instagram_url' placeholder="Enter instagram url">
                                     @error('instagram_url')
                                         {{ $message }}
                                     @enderror
@@ -147,7 +147,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for=""><b>Enter Youtube URL</b></label>
-                                    <input type="text" class="form-control" wire:model.defer='youtube_url' placeholder="Enter youtube url">
+                                    <input type="text" class="form-control" wire:model.live='youtube_url' placeholder="Enter youtube url">
                                     @error('youtube_url')
                                         {{ $message }}
                                     @enderror
@@ -156,7 +156,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for=""><b>Enter Github URL</b></label>
-                                    <input type="text" class="form-control" wire:model.defer='github_url' placeholder="Enter github url">
+                                    <input type="text" class="form-control" wire:model.live='github_url' placeholder="Enter github url">
                                     @error('github_url')
                                         {{ $message }}
                                     @enderror
@@ -165,7 +165,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for=""><b>Enter LinkedIn URL</b></label>
-                                    <input type="text" class="form-control" wire:model.defer='linkedin_url' placeholder="Enter linkedin url">
+                                    <input type="text" class="form-control" wire:model.live='linkedin_url' placeholder="Enter linkedin url">
                                     @error('linkedin_url')
                                         {{ $message }}
                                     @enderror

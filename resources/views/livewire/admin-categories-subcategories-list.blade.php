@@ -58,7 +58,9 @@
                         </tbody>
                     </table>
                 </div>
-
+                    <div class="d-block mt-2">
+                        {{ $categories->links('livewire::simple-bootstrap') }}  <!-- tạo ra các liên kết phân trang cho danh sách các danh mục. -->
+                    </div>
             </div>
         </div>
         <div class="col-md-12">
@@ -135,7 +137,9 @@
                         </tbody>
                     </table>
                 </div>
-
+                <div class="d-block mt-2">
+                        {{ $subcategories->links('livewire::simple-bootstrap') }}  <!-- tạo ra các liên kết phân trang cho danh sách các danh mục. -->
+                    </div>
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@
                 positions.push([$(this).attr("data-index"), $(this).attr("data-ordering")]);
                 $(this).removeClass("updated");
             });
-            window.livewire.emit("updateCategoriesOrdering", positions);
+            Livewire.dispatch("updateCategoriesOrdering", [positions]);
         }
     });
 
@@ -46,7 +46,7 @@
                 $(this).removeClass("updated"); // Loại bỏ lớp updated khỏi các phần tử đã được xử lý.
             });
             //alert(positions)    //Hiển thị một cửa sổ cảnh báo chứa thông tin vị trí mới của các phần tử
-            // window.livewire.emit("updateCategoriesOrdering", positions);
+            // Livewire.dispatch("updateCategoriesOrdering", [positions]);
             window.Echo.channel('toastr-channel').listen('updateCategoriesOrdering', (positions) => {
                 // Xử lý sự kiện và hiển thị thông báo
                 console.log('Updated positions:', positions);
@@ -77,10 +77,10 @@
 
     //SweetAlert2
     // xử lý việc khi người dùng nhấn vào nút xóa.
+
     $(document).on('click', '.deleteCategoryBtn', function(e) {
         e.preventDefault(); //Ngăn chặn hành vi mặc định của trình duyệt khi nhấn nút, giúp tránh việc tải lại trang hoặc chuyển hướng tới một URL khác.
         var category_id = $(this).data('id'); //Lấy giá trị của thuộc tính data-id từ phần tử được nhấn, tức là id của danh mục cần xóa
-
         // Sử dụng thư viện SweetAlert để hiển thị hộp thoại xác nhận
         Swal.fire({
             title: 'Are you sure?',
@@ -96,7 +96,7 @@
             if (result.isConfirmed) {
                 // Thực hiện hành động xóa
                 // alert('Yes, delete category');
-                window.livewire.emit('deleteCategory', category_id);
+                Livewire.dispatch('deleteCategory', [category_id]);
             }
         });
     });
@@ -112,7 +112,7 @@
             $(".updated").each(function() {
                 postitions.push([$(this).attr("data-index"), $(this).attr("data-ordering")]);
             });
-            window.livewire.emit("updateSubCategoriesOrdering", postitions);
+            Livewire.dispatch("updateSubCategoriesOrdering", [postitions]);
         }
     });
     $('ul#sortable_child_subcategories').sortable({
@@ -127,7 +127,7 @@
             $(".updated").each(function() {
                 postitions.push([$(this).attr("data-index"), $(this).attr("data-ordering")]);
             });
-            window.livewire.emit("updateChildSubCategoriesOrdering", postitions);
+            Livewire.dispatch("updateChildSubCategoriesOrdering", [postitions]);
         }
     });
 
@@ -158,7 +158,7 @@
             if (result.value) {
                 // Thực hiện hành động xóa
                 // alert('Yes, delete sub category');
-                window.livewire.emit('deleteSubCategory', subcategory_id);
+                Livewire.dispatch('deleteSubCategory', [subcategory_id]);
             }
         });
 

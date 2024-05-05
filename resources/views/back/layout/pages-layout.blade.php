@@ -401,16 +401,16 @@
     <script>
         window.addEventListener('showToastr', function(event) {
             toastr.remove(); // Trước khi hiển thị toastr mới, đoạn mã này loại bỏ các toastr hiện có trên trang.
-            if (event.detail.type === "info") {
-                toastr.info(event.detail.message);
-            } else if (event.detail.type === 'success') {
-                toastr.success(event.detail.message);
+            if (event.detail[0].type === "info") {
+                toastr.info(event.detail[0].message);
+            } else if (event.detail[0].type === 'success') {
+                toastr.success(event.detail[0].message);
             } //Nếu loại sự kiện là "info", hiển thị một toastr thông báo với nội dung là event.detail.message
-            else if (event.detail.type === 'error') {
-                toastr.error(event.detail.message);
+            else if (event.detail[0].type === 'error') {
+                toastr.error(event.detail[0].message);
             } // Nếu loại sự kiện là "success", hiển thị toastr thành công.
-            else if (event.detail.type === "warning") {
-                toastr.warning(event.detail.message);
+            else if (event.detail[0].type === "warning") {
+                toastr.warning(event.detail[0].message);
             } //Nếu loại sự kiện là "error", hiển thị toastr lỗi.
             else {
                 return false;

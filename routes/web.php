@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ControllerProducts;
-
-
+use App\Http\Controllers\FrontEndController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +18,8 @@ use App\Http\Controllers\ControllerProducts;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(FrontEndController::class)->group(function(){
+    Route::get('/','homePage')->name('home-page');
 });
 Route::view('/example-auth', 'example-auth');
 Route::view('/example-page', 'example-page');

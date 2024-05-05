@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ class AdminProfileTabs extends Component
 {
     public $tab = null;
     public $tabname = 'personal_details';
-    protected $queryString = ['tab'];
+    protected $queryString = ['tab'=>['keep'=>true]];
     public $name, $email, $username, $admin_id;
     public $current_password, $new_password, $new_password_confirmation;
 
@@ -50,8 +50,8 @@ class AdminProfileTabs extends Component
                 'username' => $this->username
             ]);
 
-        $this->emit('updateAdminsSellerHeaderInfo');    //class AdminSellerHeaderProfileInfo sẽ nghe đến event này và render lại
-        $this->dispatchBrowserEvent('updateAdminInfo', [
+        $this->dispatch('updateAdminsSellerHeaderInfo');    //class AdminSellerHeaderProfileInfo sẽ nghe đến event này và render lại
+        $this->dispatch('updateAdminInfo', [
             'adminName' => $this->name,
             'adminEmail' => $this->email
         ]);
@@ -104,7 +104,7 @@ class AdminProfileTabs extends Component
 
     public function showToastr($type, $message)
     {
-        return $this->dispatchBrowserEvent('showToastr', [
+        return $this->dispatch('showToastr', [
             'type' => $type,
             'message' => $message
         ]);

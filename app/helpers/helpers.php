@@ -4,6 +4,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use App\Models\GeneralSetting;
 use App\Models\SocialNetwork;
+use App\Models\Category;
+use App\Models\SubCategory;
 
 // SEND MAIL FUNCTION USING PHPMAILER LIBRARY.
 
@@ -80,5 +82,14 @@ if(!function_exists('get_social_networks')){
             $results = $new_social_network_data;
         }
         return  $results;
+    }
+}
+
+///FRONTEND::
+// GET FRONT END CATEGORIES
+if (!function_exists("get_categories") ){
+    function get_categories() {   //get_categories được thiết kế để lấy tất cả các danh mục cùng với các danh mục con của chúng từ cơ sở dữ liệu.
+        $categories = Category::with('subcategories')->orderBy('ordering','asc')->get();
+        return !empty($categories) ? $categories : [];
     }
 }

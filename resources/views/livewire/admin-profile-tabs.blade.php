@@ -17,12 +17,12 @@
                 <div class="tab-pane fade {{ $tab == 'personal_details' ? 'active show' : ''}}"
                 id="person_details" role="tabpanel">
                     <div class="pd-20">
-                        <form wire:submit.prevent='updateAdminPersonalDetails()'>
+                        <form wire:submit='updateAdminPersonalDetails()'>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="from-group">
                                         <label for="">Name</label>
-                                        <input type="text" class="form-control" wire:model='name' placeholder="Enter your name">
+                                        <input type="text" class="form-control" wire:model.live='name' placeholder="Enter your name">
                                         @error('name')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -31,7 +31,7 @@
                                 <div class="col-md-4">
                                     <div class="from-group">
                                         <label for="">Email</label>
-                                        <input type="text" class="form-control" wire:model='email' placeholder="Enter your email">
+                                        <input type="text" class="form-control" wire:model.live='email' placeholder="Enter your email">
                                         @error('email')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -40,7 +40,7 @@
                                 <div class="col-md-4">
                                     <div class="from-group">
                                         <label for="">Username</label>
-                                        <input type="text" class="form-control" wire:model='username' placeholder="Enter your username">
+                                        <input type="text" class="form-control" wire:model.live='username' placeholder="Enter your username">
                                         @error('username')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -57,12 +57,12 @@
                 id="update_password" role="tabpanel">
                     <div class="pd-20 profile-task-wrap">
 
-                        <form wire:submit.prevent='updatePassword()'>
+                        <form wire:submit='updatePassword()'>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Current Password</label>
-                                        <input type="password" placeholder="Enter current password " wire:model.
+                                        <input type="password" placeholder="Enter current password " wire:model.live.
                                         defer='current_password' class="form-control">
                                         @error('current_password')
                                             <span class="text-danger">{{ $message }}</span>
@@ -72,7 +72,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">New Password</label>
-                                        <input type="password" placeholder="Enter new password " wire:model.
+                                        <input type="password" placeholder="Enter new password " wire:model.live.
                                         defer='new_password' class="form-control">
                                         @error('new_password')
                                         <span class="text-danger">{{ $message }}</span>
@@ -82,7 +82,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Confirm new Password</label>
-                                        <input type="password" placeholder="Retype new password " wire:model.
+                                        <input type="password" placeholder="Retype new password " wire:model.live.
                                         defer='new_password_confirmation' class="form-control">
                                         @error('new_password_confirmation')
                                         <span class="text-danger">{{ $message }}</span>

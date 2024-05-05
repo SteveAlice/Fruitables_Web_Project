@@ -1,14 +1,20 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\SubCategory;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\File;
+use Livewire\WithPagination;
 
 class AdminCategoriesSubcategoriesList extends Component
 {
+    use WithPagination;
+    public $categoriesPerPage = 5;
+    public $subcategoryPerPage = 3;  // mỗi trang sẽ hiển thị tối đa 3 mục con của danh mục chính
+
     //Lớp này lắng nghe sự kiện 'updateCategoriesOrdering'.
     protected $listeners = [
         'updateCategoriesOrdering',
@@ -83,7 +89,15 @@ class AdminCategoriesSubcategoriesList extends Component
         $category_image = $category->category_name;
 
         //Check if this category has subcategories
+        if ($category->subcategories->count() > 0) {
+            //Check if on of these subcategories has related product(s)
 
+            //Delete sub categories
+            foreach ($category->subcategories as $subcategory) {
+                $subcategory = SubCategory::findOrFail($subcategory->id);
+                $subcategory->delete();
+            }
+        }
         //Delete Category Image
         if (File::exists(public_path($path . $category_image))) {
             File::delete($path . $category_image);
@@ -101,7 +115,7 @@ class AdminCategoriesSubcategoriesList extends Component
     //Phuong thuc hien thi thong ,can co thu vien ijabo
     public function showToastr($type, $message)
     {
-        return $this->dispatchBrowserEvent('showToastr', [
+        return $this->dispatch('showToastr', [
             'type' => $type,
             'message' => $message
         ]);
@@ -109,8 +123,9 @@ class AdminCategoriesSubcategoriesList extends Component
     public function render()
     {
         return view('livewire.admin-categories-subcategories-list', [
-            'categories' => Category::orderBy('ordering', 'asc')->get(),
-            'subcategories' => SubCategory::where('is_child_of', 0)->orderBy('ordering', 'asc')->get()
+            'categories' => Category::orderBy('ordering', 'asc')->paginate($this->categoriesPerPage,['*'],'categoriesPage'),
+            'subcategories' => SubCategory::where('is_child_of', 0)->orderBy('ordering', 'asc')
+            ->paginate($this->subcategoryPerPage,['*'],'subcategoriesPage')
         ]);
     }
 }
