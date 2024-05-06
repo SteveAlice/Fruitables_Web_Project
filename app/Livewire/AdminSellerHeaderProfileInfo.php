@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\Admin;
+use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
 // component Livewire được sử dụng để hiển thị thông tin về người dùng (admin) và người bán (seller) trên header của giao diện.
@@ -20,6 +20,7 @@ class AdminSellerHeaderProfileInfo extends Component
         if(Auth::guard('admin')->check()){  //Nếu đã đăng nhập, component sẽ lấy thông tin về admin và gán cho biến $admin.
             $this->admin= Admin::findOrFail(auth() -> id());
         }
+
     }
     public function render()
     {
