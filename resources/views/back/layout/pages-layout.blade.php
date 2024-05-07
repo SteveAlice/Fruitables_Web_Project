@@ -7,7 +7,7 @@
     <title>@yield('pageTitle')</title>
 
     <!-- Site favicon -->
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/site/{{ get_settings()->site_favicon }}" />
 
     <!-- Mobile Specific Metas -->
@@ -47,7 +47,9 @@
         .swal2-popup {
             font-size: 0.78em;
         }
+
     </style>
+    @kropifyStyles
     @livewireStyles
     @stack('stylesheets')
 
@@ -329,7 +331,8 @@
                     </li>
                     @else
                     <li>
-                        <a href="calendar.html" class="dropdown-toggle no-arrow">
+                        <a href="{{route('seller.home')}}" class="dropdown-toggle no-arrow
+                        {{Route::is('seller.home') ? 'active' : ''}}">
                             <span class="micon fa fa-home"></span><span class="mtext">Home</span>
                         </a>
                     </li>
@@ -347,7 +350,8 @@
                     </li>
 
                     <li>
-                        <a href="" target="_blank" class="dropdown-toggle no-arrow">
+                        <a href="{{ route('seller.profile')}}" target="_blank" class="dropdown-toggle no-arrow
+                        {{Route::is('seller.profile') ? 'active' : ''}}">
                             <span class="micon fa fa-user"></span>
                             <span class="mtext"> Profile</span>
                         </a>
@@ -417,6 +421,15 @@
             }
         });
     </script>
+    <script>
+        function showNotification() {
+            var notification = document.getElementById("notification");
+            notification.innerHTML = "Personal Details have been successfully updated.";
+            notification.style.display = "block";
+            setTimeout(function(){ notification.style.display = "none"; }, 3000); // Tắt thông báo sau 3 giây
+        }
+    </script>
+    @kropifyScripts
     @livewireScripts
     @stack('scripts')
 </body>

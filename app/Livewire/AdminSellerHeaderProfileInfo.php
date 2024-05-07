@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Admin;
+use App\Models\Seller;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,9 +19,12 @@ class AdminSellerHeaderProfileInfo extends Component
     // component kiểm tra xem người dùng đã đăng nhập với vai trò admin hay chưa
     public function mount(){
         if(Auth::guard('admin')->check()){  //Nếu đã đăng nhập, component sẽ lấy thông tin về admin và gán cho biến $admin.
-            $this->admin= Admin::findOrFail(auth() -> id());
+            $this->admin= Admin::findOrFail(auth('admin') -> id());
         }
 
+        if(Auth::guard('seller')->check()){
+            $this->seller= Seller::findOrFail(auth('seller') -> id());
+        }
     }
     public function render()
     {

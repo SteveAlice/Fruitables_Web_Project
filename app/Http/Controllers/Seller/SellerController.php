@@ -13,6 +13,9 @@ use App\Models\VerificationToken;
 use Illuminate\Support\Facades\DB;
 use constGuards;
 use constDefaults;
+use Symfony\Component\HttpKernel\Profiler\Profile;
+use Illuminate\Support\Facades\File;
+use Mberecall\Kropify\Kropify;
 
 class SellerController extends Controller
 {
@@ -257,7 +260,7 @@ class SellerController extends Controller
         // Kiểm tra xem token có tồn tại và hợp lệ không
         if ($get_token) {
             //  Tính thời gian chênh lệch giữa thời điểm tạo token và thời điểm hiện tại
-            $diffMins = Carbon::createFromFormat('Y-m-d H:i:s',$get_token->created_at)
+            $diffMins = Carbon::createFromFormat('Y-m-d H:i:s', $get_token->created_at)
                 ->diffInMinutes(Carbon::now());
 
             // Kiểm tra xem token đã hết hạn chưa
@@ -282,9 +285,9 @@ class SellerController extends Controller
             'confirm_new_password' => 'required'
         ]);
 
-        $token =DB::table('password_reset_tokens')
-        ->where(['token' => $request->token,'guard'=>constGuards::SELLER])
-        ->first();
+        $token = DB::table('password_reset_tokens')
+            ->where(['token' => $request->token, 'guard' => constGuards::SELLER])
+            ->first();
 
         // Find seller by email | Tìm người bán theo email
         $seller = Seller::where('email', $token->email)->first();
@@ -323,5 +326,40 @@ class SellerController extends Controller
 
         // Redirect to seller login page with success message | Chuyển hướng đến trang đăng nhập của người bán với thông báo thành công
         return redirect()->route('seller.login')->with('success', 'Done! Your password has been changed. Use the new password to log in to the system.');
+    }
+
+    public function profileView(Request $request)
+    {
+        $data = [
+            'pageTitle' => 'Profile'
+        ];
+        return view('back.pages.seller.profile', $data);
+    }
+    public function changeProfilePicture(Request $request)
+    {
+        $seller = Seller::findOrFail(auth('seller')->id()); // Lấy thông tin của người bán hàng đang đăng nhập
+        $path = 'images/users/sellers/';    // Đường dẫn lưu trữ hình ảnh
+        $file = $request->file('sellerProfilePictureFile'); // Lấy file ảnh từ request
+        $old_picture = $seller->getAttributes()['picture']; // Lấy tên file ảnh cũ
+        $filename = 'SELLER_IMG_' . $seller->id . '.jpg'; // Tạo tên file mới dựa trên id của người bán hàng
+
+        // Tiến hành tải lên và xử lý ảnh với Kropify
+        $upload = Kropify::getFile($file, $filename)->maxWoH(325)->save($path);
+        $infos = $upload->getInfo();
+
+        if ($upload) { // Nếu quá trình tải lên thành công
+            // Xóa ảnh cũ nếu có
+            if ($old_picture != null && File::exists(public_path($path . $old_picture))) {
+                File::delete(public_path($path . $old_picture));
+            }
+
+            // Cập nhật tên ảnh mới vào thông tin của người bán hàng
+            $seller->update(['picture' => $infos->getName]);
+
+            // Trả về thông báo thành công
+            return response()->json(['status' => 1, 'msg' => 'Your profile picture has been succesfully updated.']);
+        } else { // Nếu có lỗi xảy ra, trả về thông báo lỗi
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong!']);
+        }
     }
 }

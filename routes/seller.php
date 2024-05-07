@@ -16,7 +16,7 @@ Route::prefix('seller')->name('seller.')->group(function(){
             Route::get('/forgot-password','forgotPassword')->name('forgot-password');
             Route::post('/send-password-reset-link','sendPasswordResetLink')->name('send-password-reset-link');
             Route::get('/password/reset/{token}','showResetForm')->name('reset-password');
-            
+
             Route::post('/reset-password-handler','resetPasswordHandler')->name('reset-password-handler');
         });
     });
@@ -25,6 +25,8 @@ Route::prefix('seller')->name('seller.')->group(function(){
         Route::controller(SellerController::class)->group(function(){
             Route::get('/','home')->name('home');
             Route::post('/logout','logoutHandler')->name('logout');
+            Route::get('/profile','profileView')->name('profile');
+            Route::post('/change-profile-picture','changeProfilePicture')->name('change-profile-picture');
         });
     });
 
