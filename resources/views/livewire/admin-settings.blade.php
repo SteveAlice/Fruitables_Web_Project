@@ -72,14 +72,14 @@
                     </form>
                 </div>
             </div>
-            
+
             <div class="tab-pane fade {{ $tab == 'logo_favicon' ? 'active show' : ''}}" id="logo_favicon" role="tabpanel">
                 <div class="pd-20">
                     <div class="row">
                         <div class="col-md-6">
                             <h5>Site logo</h5>
                             <div class="mb-2 mt-1" style="max-width: 200px;">
-                                <img wire:ignore src="/images/site/{{ $site_logo }}" class="img-thumbnail"
+                                <img wire:ignore src="/images/site/{{ $site_logo }}" class="img-thumbnail" 
                                 data-ijabo-default-img="/images/site{{ $site_logo }}" id="site_logo_image_preview">
                                 <!-- <img src="" id="site_logo_image_preview" class="img-thumbnail"> -->
                             </div>

@@ -201,80 +201,95 @@ class AdminController extends Controller
 
         sendEmail($mailConfig);
         return redirect()->route('admin.login')->with('success', 'Done!, Your password has been changed successfully.Use new password to login into system.');
-
     }
-    public function profileView(Request $request){
-        $admin =null;
-        if(Auth::guard('admin')->check()){
-            $admin =Admin::findOrFail(auth()->id());
+    public function profileView(Request $request)
+    {
+        $admin = null;
+        if (Auth::guard('admin')->check()) {
+            $admin = Admin::findOrFail(auth()->id());
         }
         return view('back.pages.admin.profile', compact('admin'));
     }
-    public function changeProfilePicture(Request $request){
-        $admin =Admin::findOrFail(auth('admin')->id());
+    public function changeProfilePicture(Request $request)
+    {
+        $admin = Admin::findOrFail(auth('admin')->id());    // Lấy thông tin của quản trị viên đang đăng nhập
         $path = 'images/users/admins/';
-        $file = $request->file('adminProfilePictureFile');
-        $old_picture = $admin->getAttributes()['picture'];
-        $file_path = $path.$old_picture;
-        $filename = 'ADMIN_IMG_'.rand(2,1000).$admin->id.time().uniqid().'.jpg';
+        $file = $request->file('adminProfilePictureFile');  // Lấy file ảnh từ request
+        $old_picture = $admin->getAttributes()['picture'];  // Lấy tên file ảnh cũ
 
+        // Tạo đường dẫn file cũ
+        $file_path = $path . $old_picture;
+
+        // Tạo tên file mới dựa trên id của quản trị viên, thời gian và một số ngẫu nhiên
+        $filename = 'ADMIN_IMG_' . rand(2, 1000) . $admin->id . time() . uniqid() .'.jpg';
+
+        // Tiến hành tải lên file mới
         $upload = $file->move(public_path($path), $filename);
 
-        if($upload){
-            if($old_picture != null && File::exists(public_path($path.$old_picture)) ){
-                File::delete(public_path($path.$old_picture));
+        if ($upload) { // Nếu quá trình tải lên thành công
+            // Xóa ảnh cũ nếu có
+            if ($old_picture != null && File::exists(public_path($path . $old_picture))) {
+                File::delete(public_path($path . $old_picture));
             }
-            $admin->update(['picture'=>$filename]);
-            return response()->json(['status'=>1,'msg'=>'Your profile picture has been successfully updated.']);
-        }else{
-            return response()->json(['status'=>0,'msg'=>'Something went wrong.']);
+
+            // Cập nhật tên ảnh mới vào thông tin của quản trị viên
+            $admin->update(['picture' => $filename]);
+
+            // Trả về thông báo thành công
+            return response()->json(['status' => 1, 'msg' => 'Your profile picture has been successfully updated.']);
+        } else {
+            // Nếu có lỗi xảy ra, trả về thông báo lỗi
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
         }
     }
 
-    public function changeLogo(Request $request){
+
+    public function changeLogo(Request $request)
+    {
         $path = 'images/site/';
         $file = $request->file('site_logo');
-        $settings =new GeneralSetting();
+        $settings = new GeneralSetting();
         $old_logo = $settings->first()->site_logo;
-        $file_path = $path.$old_logo;
-        $filename = 'LOGO_'.uniqid().'.'.$file->getClientOriginalExtension();
+        $file_path = $path . $old_logo;
+        $filename = 'LOGO_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
         $upload = $file->move(public_path($path), $filename);
-        if($upload){
-            if( $old_logo != null && File::exists(public_path($path.$old_logo))) {
-                File::delete(public_path($path.$old_logo));
+        if ($upload) {
+            if ($old_logo != null && File::exists(public_path($path . $old_logo))) {
+                File::delete(public_path($path . $old_logo));
             }
             $settings = $settings->first();
-            $settings->site_logo =$filename;
+            $settings->site_logo = $filename;
             $update = $settings->save();
 
-            return response()->json(['status' => 1,'msg'=>'Site logo has been updated successfully!']);
-
-        }else{
-            return response()->json(['status' => 0,'msg' => 'Something went wrong!']);
+            return response()->json(['status' => 1, 'msg' => 'Site logo has been updated successfully!']);
+        } else {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong!']);
         }
     }
 
-    public function changeFavicon(Request $request){
+    public function changeFavicon(Request $request)
+    {
         $path = 'images/site/';
         $file = $request->file('site_favicon');
-        $settings =new GeneralSetting();
+        $settings = new GeneralSetting();
         $old_favicon = $settings->first()->site_favicon;
-        $file_path = $path.$old_favicon;
-        $filename = 'FAV_'.uniqid().'.'.$file->getClientOriginalExtension();
+        $file_path = $path . $old_favicon;
+        $filename = 'FAV_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-        $upload =$file->move(public_path($path), $filename);
+        $upload = $file->move(public_path($path), $filename);
         if ($upload) {
-            if($old_favicon != null && File::exists(public_path($file_path ))){
-                File::delete(public_path($file_path ));
+            if ($old_favicon != null && File::exists(public_path($file_path))) {
+                File::delete(public_path($file_path));
             }
             $settings = $settings->first();
             $settings->site_favicon = $filename;
             $update = $settings->save();
             return response()->json([
-                "status" => "1", 'msg' => 'Done, site favicon has been updated successfully.']);
-        }else{
-            return response()->json(['status' => 0,'Something went wrong!']);
+                "status" => "1", 'msg' => 'Done, site favicon has been updated successfully.'
+            ]);
+        } else {
+            return response()->json(['status' => 0, 'Something went wrong!']);
         }
     }
 }
