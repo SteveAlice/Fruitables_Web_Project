@@ -310,7 +310,8 @@
                             <span class="micon bi bi-receipt-cutoff"></span><span class="mtext">Invoice</span>
                         </a>
                     </li>
-                    <li>
+
+
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
@@ -342,6 +343,20 @@
                             <span class="micon bi bi-receipt-cutoff"></span><span class="mtext">Invoice</span>
                         </a>
                     </li>
+
+                    <li class="dropdown ">
+							<a href="javascript:;" class="dropdown-toggle {{Route::is('seller.product.*') ? 'active' : '' }}" >
+								<span class="micon bi bi-bag"></span><span class="mtext">Manage Products</span>
+							</a>
+							<ul class="submenu">
+								<li><a href="{{route('seller.product.all-products') }}"
+                                class="{{Route::is('seller.product.all-product') ? 'active' : '' }}">All Products</a></li>
+								<li><a href="{{route('seller.product.add-product') }}"
+                                class="{{Route::is('seller.product.add-product') ? 'active' : '' }}">Add Product</a></li>
+							</ul>
+						</li>
+                    <li>
+
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>

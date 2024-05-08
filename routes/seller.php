@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Seller\SellerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Seller\ProductController;
 
 Route::prefix('seller')->name('seller.')->group(function(){
 
@@ -22,6 +23,7 @@ Route::prefix('seller')->name('seller.')->group(function(){
     });
 
     Route::middleware(['auth:seller','PreventBackHistory'])->group(function(){
+
         Route::controller(SellerController::class)->group(function(){
             Route::get('/','home')->name('home');
             Route::post('/logout','logoutHandler')->name('logout');
@@ -29,6 +31,17 @@ Route::prefix('seller')->name('seller.')->group(function(){
             Route::post('/change-profile-picture','changeProfilePicture')->name('change-profile-picture');
             Route::get('shop-settings','shopSettings')->name('shop-settings');
             Route::post('/shop-setup','ShopSetup')->name('shop-setup');
+        });
+
+        //Product Routes
+        Route::prefix('product')->name('product.')->group(function(){
+            Route::controller(ProductController::class)->group(function(){
+                Route::get('/all','allProduct')->name('all-products');
+                Route::get('/add','addProduct')->name('add-product');
+                Route::get('/get-product-category','getProductCategory')->name('get-product-category');
+                Route::post('/create','createProduct')->name('create-product');
+            });
+
         });
     });
 
