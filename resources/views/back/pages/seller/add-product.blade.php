@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label for=""><b>Product summary:</b></label>
-                    <textarea id="summary" class="form-control" cols="30" rows="10"></textarea>
+                    <textarea id="summary" class="form-control summernote" cols="30" rows="10"></textarea>
                     <span class="text-danger error-text summary_error"></span>
                 </div>
                 <div class="form-group">
@@ -55,9 +55,9 @@
                     <label for=""><b>Category:</b></label>
                     <select name="category" id="category" class="form-control">
                         <option value="" selected>Not set</option>
-                        <option value="1">Cat 1</option>
-                        <option value="2">Cat 2</option>
-                        <option value="2">Cat n</option>
+                        @foreach ($categories as $item)
+                        <option value="{{$item->id}}">{{$item->category_name}}</option>
+                        @endforeach
                     </select>
                     <span class="text-danger error-text category_error"></span>
                 </div>
@@ -66,9 +66,7 @@
                     <label for=""><b>Sub Category:</b></label>
                     <select name="subcategory" id="subcategory" class="form-control">
                         <option value="" selected>Not set</option>
-                        <option value="1">Sub Cat 1</option>
-                        <option value="2">Sub Cat 2</option>
-                        <option value="2">Sub Cat n</option>
+
                     </select>
                     <span class="text-danger error-text subcategory_error"></span>
                 </div>
@@ -103,3 +101,60 @@
 
 
 @endsection
+@push('scripts')
+<script>
+    //List categories according to the selected category  || Liệt kê các danh mục theo danh mục đã chọn.
+    $(document).on('change', 'select#category', function(e) {
+        e.preventDefault();
+        var category_id = $(this).val();
+        var url = "{{ route('seller.product.get-product-category') }}";
+        if (category_id == '') {
+            $("select#subcategory").find("option").not(":first").remove();
+        } else {
+            $.get(url, {
+                category_id: category_id
+            }, function(response) {
+                $("select#subcategory").find("option").not(":first").remove();
+                $("select#subcategory").append(response.data);
+            }, 'JSON');
+        }
+    });
+
+    // //Preview selected product image  ||    Xem trước hình ảnh sản phẩm đã chọn
+    // $('input[type="file"][name="product_image"]').ijaboViewer({
+    //     preview: 'img#image-preview',
+    //     imageShape :'square',
+    //     allowedExtensions: ['png','jpg','jpeg'],
+    //     onErrorShape:function(message, element){
+    //         alert(message);
+    //     },
+    //     onInvalidType:function(message, element){
+    //         alert(message);
+    //     },
+    //     onSuccess:function(message,element){}
+    // })
+    // Lắng nghe sự kiện khi người dùng chọn hình ảnh
+
+    $('input[type="file"][name="product_image"]').on('change', function(e) {
+        var file = e.target.files[0]; // Lấy ra tệp được chọn
+        var imageType = /image.*/; // Kiểm tra xem tệp có phải là hình ảnh không
+
+        // Kiểm tra xem tệp được chọn có phải là hình ảnh không
+        if (file && file.type.match(imageType)) {
+            var reader = new FileReader(); // Tạo đối tượng FileReader
+
+            // Lắng nghe sự kiện khi FileReader đã đọc xong tệp
+            reader.onload = function(e) {
+                // Hiển thị hình ảnh được đọc trong thẻ <img> có id="image-preview"
+                $('#image-preview').attr('src', e.target.result);
+            }
+
+            // Đọc tệp được chọn dưới dạng URL dữ liệu
+            reader.readAsDataURL(file);
+        } else {
+            // Nếu tệp không phải là hình ảnh, hiển thị thông báo lỗi
+            alert('Only images in PNG or JPEG format can be selected!');
+        }
+    });
+</script>
+@endpush
