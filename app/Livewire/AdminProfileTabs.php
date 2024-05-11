@@ -95,8 +95,10 @@ class AdminProfileTabs extends Component
             );
 
             sendEmail($mailConfig);
+            
             $this->current_password = $this->new_password = $this->new_password_confirmation = null;
             $this->showToastr('success', 'Password updated successfully');
+
         } else {
             $this->showToastr('error', 'Something went wrong!');
         }

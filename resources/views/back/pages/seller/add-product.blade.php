@@ -23,6 +23,7 @@
         </div>
     </div>
 </div>
+
 <form action="{{ route('seller.product.create-product') }}" method="post" enctype="multipart/form-data" id="addProductForm">
     @csrf
     <div class="row pd-10">
@@ -35,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label for=""><b>Product summary:</b></label>
-                    <textarea id="summary" class="form-control" cols="30" rows="10"></textarea>
+                    <textarea id="summary" class="form-control summernote"  cols="30" rows="10"></textarea>
                     <span class="text-danger error-text summary_error"></span>
                 </div>
                 <div class="form-group">
@@ -46,7 +47,7 @@
                 <div class="d-block mb-3" style="max-width: 250px;">
                     <img src="" class="img-thumbnail " id="image-preview" data-ijabo-default-img="">
                 </div>
-                <b>NB:</b><small class="text-danger"> You will be able to add more images related to this product when you are on edit product page.</small>
+                <b>NB</b>:<small class="text-danger"> You will be able to add more images related to this product when you are on edit product page.</small>
             </div>
         </div>
         <div class="col-md-4 mb-20">
@@ -55,9 +56,9 @@
                     <label for=""><b>Category:</b></label>
                     <select name="category" id="category" class="form-control">
                         <option value="" selected>Not set</option>
-                        <option value="1">Cat 1</option>
-                        <option value="2">Cat 2</option>
-                        <option value="2">Cat n</option>
+                        @foreach ($categories as $item)
+                        <option value="{{ $item->id }}">{{$item->category_name}}</option>
+                        @endforeach
                     </select>
                     <span class="text-danger error-text category_error"></span>
                 </div>
@@ -66,22 +67,20 @@
                     <label for=""><b>Sub Category:</b></label>
                     <select name="subcategory" id="subcategory" class="form-control">
                         <option value="" selected>Not set</option>
-                        <option value="1">Sub Cat 1</option>
-                        <option value="2">Sub Cat 2</option>
-                        <option value="2">Sub Cat n</option>
                     </select>
                     <span class="text-danger error-text subcategory_error"></span>
                 </div>
             </div>
+
             <div class="card-box min-height-200px pd-20 mb-20">
                 <div class="from-group">
                     <label for=""><b>Price:</b><small>In VND Currency (VND)</small></label>
-                    <input type="text" name="price" class="form-control" placeholder="Eg: 20.000">
+                    <input type="text" name="price" class="form-control" placeholder="Eg: 20.00">
                     <span class="text-danger error-text price_error"></span>
                 </div>
                 <div class="from-group">
                     <label for=""><b>Compare Price:</b><small>Optional</small></label>
-                    <input type="text" name="compare_price" class="form-control" placeholder="Eg: 50.000">
+                    <input type="text" name="compare_price" class="form-control" placeholder="Eg: 50.00">
                     <span class="text-danger error-text compare_price_error"></span>
                 </div>
             </div>
@@ -103,3 +102,81 @@
 
 
 @endsection
+@push('scripts')
+<script>
+    //List sub categories according to the selected category.
+    $(document).on('change', 'select#category', function(e) {
+        e.preventDefault();
+        var category_id = $(this).val();
+        var url = "{{ route('seller.product.get-product-category') }}";
+        if (category_id == '') {
+            $("select#subcategory").find("option").not(":first").remove();
+        } else {
+            $.get(url, {
+                category_id: category_id
+            }, function(response) {
+                $("select#subcategory").find("option").not(":first").remove();
+                $("select#subcategory").append(response.data);
+            }, 'JSON');
+        }
+    });
+
+    //Preview selected
+    $('input[type=file][name="product_image"]').on('change', function() {
+    var input = this;
+    if (input.files && input.files[0]) {
+        var file = input.files[0];
+        // Kiểm tra nếu tập tin không phải là hình ảnh
+        if (!file.type.match('image.*')) {
+            alert("Only image files are accepted!");
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            // Hiển thị hình ảnh trước đó
+            $('#image-preview').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
+    }
+});
+    //Submit Product Form
+    $('#addProductForm').on('submit',function(e){
+        e.preventDefault();
+        var summary = $('textarea.summernote').summernote('code');
+        var form =this;
+        var formdata = new FormData(form);
+        formdata.append('summary', summary);
+
+        $.ajax({
+            url : $(form).attr('action'),
+            method:$(form).attr('method'),
+            data:formdata,
+            processData: false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+                toastr.remove();
+                $(form).find('span.error-text').text('');
+            },
+            success:function(response){
+                toastr.remove();
+                if(response.status == 1){
+                    $(form)[0].reset();
+                    $('textarea.summernote').summernote('code','');
+                    $('select#subcategory').find('option').not(':first').remove();
+                    $('img#image-preview').attr('src','');
+                    toastr.success(response.msg);
+                }else{
+                    toastr.error(response.msg);
+                }
+            },
+            error:function(response){
+                toastr.remove();
+                $.each(response.responseJSON.errors, function(prefix,val){
+                    $(form).find('span.'+prefix+'_error').text(val[0]);
+                });
+            }
+        })
+    });
+</script>
+@endpush

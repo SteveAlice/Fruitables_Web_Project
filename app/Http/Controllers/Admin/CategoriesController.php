@@ -70,11 +70,11 @@ class CategoriesController extends Controller
                         );
                     }
                 } else {
-                    // // Nếu không thành công, chuyển hướng về trang thêm danh mục với thông báo lỗi
+                    // Nếu không thành công, chuyển hướng về trang thêm danh mục với thông báo lỗi
                     return redirect()->route('admin.manage-categories.add-category')->with('error', 'Fail to add the category.Try again later');
                 }
             } else {
-                // // Nếu có lỗi trong quá trình di chuyển ảnh, chuyển hướng về trang thêm danh mục với thông báo lỗi
+                 // Nếu có lỗi trong quá trình di chuyển ảnh, chuyển hướng về trang thêm danh mục với thông báo lỗi
                 return redirect()->route('admin.manage-categories.add-category')->with('fail', 'Something went wrong while uploading category image.');
             }
         }

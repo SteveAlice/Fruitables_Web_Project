@@ -101,15 +101,15 @@
         //         toastr.remove(); // Trước khi hiển thị toastr mới, đoạn mã này loại bỏ các toastr hiện có trên trang.
         //         if (event[0].type === "info") {
         //             toastr.info(event[0].message);
-        //         } else if (event.type === 'success') {
+        //         } else if (event[0].type === 'success') {
         //             toastr.success(event[0].message);
-        //         } //Nếu loại sự kiện là "info", hiển thị một toastr thông báo với nội dung là event.detail.message
-        //         else if (event.type === 'error') {
+        //         }
+        //         else if (event[0].type === 'error') {
         //             toastr.error(event[0].message);
-        //         } // Nếu loại sự kiện là "success", hiển thị toastr thành công.
-        //         else if (event.detail.type === "warning") {
+        //         }
+        //         else if (event[0].type === "warning") {
         //             toastr.warning(event[0].message);
-        //         } //Nếu loại sự kiện là "error", hiển thị toastr lỗi.
+        //         }
         //         else return false;
         //     });
         // })

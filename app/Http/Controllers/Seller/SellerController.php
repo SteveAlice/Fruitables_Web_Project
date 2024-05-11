@@ -339,7 +339,7 @@ class SellerController extends Controller
     public function changeProfilePicture(Request $request)
     {
         $seller = Seller::findOrFail(auth('seller')->id()); // Lấy thông tin của người bán hàng đang đăng nhập
-        $path = 'images/users/sellers/';    // Đường dẫn lưu trữ hình ảnh
+        $path = 'images/users/sellers/';    
         $file = $request->file('sellerProfilePictureFile'); // Lấy file ảnh từ request
         $old_picture = $seller->getAttributes()['picture']; // Lấy tên file ảnh cũ
         $filename = 'SELLER_IMG_' . $seller->id . '.jpg'; // Tạo tên file mới dựa trên id của người bán hàng

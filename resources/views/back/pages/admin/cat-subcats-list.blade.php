@@ -45,35 +45,9 @@
                 positions.push([$(this).attr("data-index"), $(this).attr("data-ordering")]); //Thêm thông tin vị trí của các phần tử vào mảng positions.
                 $(this).removeClass("updated"); // Loại bỏ lớp updated khỏi các phần tử đã được xử lý.
             });
-            //alert(positions)    //Hiển thị một cửa sổ cảnh báo chứa thông tin vị trí mới của các phần tử
-            // Livewire.dispatch("updateCategoriesOrdering", [positions]);
-            window.Echo.channel('toastr-channel').listen('updateCategoriesOrdering', (positions) => {
-                // Xử lý sự kiện và hiển thị thông báo
-                console.log('Updated positions:', positions);
-            });
-
+            Livewire.dispatch("updateCategoriesOrdering", [positions]);
         }
     });
-    //     $(document).on('click', '.deleteCategoryBtn', function(e) {
-    //     e.preventDefault(); // Ngăn chặn hành vi mặc định của trình duyệt khi nhấn nút
-
-    //     // Lấy giá trị ID của danh mục cần xóa từ thuộc tính data-id của phần tử được nhấp
-    //     var category_id = $(this).data('id');
-
-    //     // Hiển thị hộp thoại xác nhận sử dụng window.confirm
-    //     var confirmation = confirm("Are you sure you want to delete this category?");
-
-    //     // Xử lý kết quả của hộp thoại xác nhận
-    //     if (confirmation) {
-    //         // Nếu người dùng xác nhận muốn xóa, thực hiện hành động xóa (ví dụ: chuyển hướng đến trang xóa)
-    //         alert('Yes, delete category');
-    //         // Thực hiện hành động xóa, ví dụ:
-    //         // window.location.href = "/categories/delete/" + category_id;
-    //     } else {
-    //         // Nếu người dùng không xác nhận muốn xóa, không thực hiện hành động nào
-    //         alert('Cancelled');
-    //     }
-    // });
 
     //SweetAlert2
     // xử lý việc khi người dùng nhấn vào nút xóa.
@@ -92,14 +66,15 @@
             confirmButtonText: 'Yes, Delete',
             cancelButtonText: 'Cancel',
             allowOutsideClick: false
-        }).then((result) => {
-            if (result.isConfirmed) {
+        }).then(function(result) {
+            if (result.value) {
                 // Thực hiện hành động xóa
                 // alert('Yes, delete category');
                 Livewire.dispatch('deleteCategory', [category_id]);
             }
         });
     });
+
     $('table tbody#sortable_subcategories').sortable({
         cursor: "move",
         update: function(event, ui) {

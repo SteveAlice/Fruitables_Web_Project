@@ -20,12 +20,14 @@
         </div>
     </div>
 </div>
+
 @livewire('seller.seller-profile')
+
 @endsection
 @push('scripts')
 <script>
     $('input[type="file"][id="sellerProfilePictureFile"]').Kropify({
-        preview: '#sellerProfilePictureFile',
+        preview: '#sellerProfilePicture',
         viewMode: 1,
         aspectRatio: 1,
         cancelButtonText: 'Cancel',

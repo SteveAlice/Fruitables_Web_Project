@@ -36,7 +36,7 @@ Route::prefix('seller')->name('seller.')->group(function(){
         //Product Routes
         Route::prefix('product')->name('product.')->group(function(){
             Route::controller(ProductController::class)->group(function(){
-                Route::get('/all','allProduct')->name('all-products');
+                Route::get('/all','allProducts')->name('all-products');
                 Route::get('/add','addProduct')->name('add-product');
                 Route::get('/get-product-category','getProductCategory')->name('get-product-category');
                 Route::post('/create','createProduct')->name('create-product');
