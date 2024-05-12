@@ -21,16 +21,19 @@ Route::get('/shopdetail', function () {
     return view('/clients/shop-detail');
 });
 
-Route::name('users.')->group(function () {
+Route::name('user.')->group(function () {
     Route::get('/shop', function () {
         return view('clients.shop');
     });
-    Route::get('/cart',[CartController::class, 'index']);
+    Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
     Route::get('/contact', function () {
         return view('clients.contact');
     });
     Route::get('/product/{id}',[ProductController::class, 'showDetail']);
     
+    Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
+
+
     Route::get('/checkout', function () {
         return view('clients.chackout');
     });

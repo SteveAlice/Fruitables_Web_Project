@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 class CartController extends Controller
 {
@@ -13,7 +14,12 @@ class CartController extends Controller
         } else {
             $carts = session("carts");
         }
-        return view("/clients/cart", compact("carts"));
+        if (! $carts->isEmpty()) {
+            $shipping = $carts->first()->order->shipping;
+        } else {
+            $shipping = 0;
+        }
+        return view("/clients/cart", compact("carts", "shipping"));
     }
     public function add($id)
     {
@@ -21,6 +27,7 @@ class CartController extends Controller
     }
     public function delete($id)
     {
-
+        \Auth::user()->carts()->where('id', $id)->first()->delete();
+        return redirect()->route('user.cart.index');
     }
 }

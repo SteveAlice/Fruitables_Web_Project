@@ -73,14 +73,21 @@
                                     <p class="mb-0 mt-4">{{ $item->product->price * $item->quantity }}$</p>
                                 </td>
                                 <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
+                                    <form method="POST" action="{{ route('user.cart.delete', $item->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="btn btn-md rounded-circle bg-light border mt-4">
+                                            <i class="fa fa-times text-danger"></i>
+                                        </button>
+                                    </form>
+
+
                                 </td>
 
                             </tr>
                         @empty
-                            {{ "No products in the cart" }}
+                            {{ 'No products in the cart' }}
                         @endforelse
 
 
@@ -102,17 +109,19 @@
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
                                 <p class="mb-0">${{ $subtotal }}</p>
                             </div>
+
+
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Shipping</h5>
                                 <div class="">
-                                    <p class="mb-0">Flat rate: {{ $item->order->shipping }}</p>
+                                    <p class="mb-0">Flat rate: {{ $shipping ?? 0}}</p>
                                 </div>
                             </div>
                             <p class="mb-0 text-end">Shipping to Ukraine.</p>
                         </div>
                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                             <h5 class="mb-0 ps-4 me-4">Total</h5>
-                            <p class="mb-0 pe-4">${{ $subtotal + $item->order->shipping }}</p>
+                            <p class="mb-0 pe-4">${{ $subtotal + $shipping ?? 0 }}</p>
                         </div>
                         <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
                             type="button">Proceed Checkout</button>

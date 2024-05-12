@@ -19,5 +19,12 @@ class ProductController extends Controller
         $categoryName = Category::find($product->category_id)->name;
         return view("/clients/shop-detail",compact("product", "categoryName"));
     }
-
+    public function search(Request $request)
+   {
+    $categories = Category::all();
+    $searchKeyword = $request->input('searchKeyword');
+    $products = Product::where('name', 'like', '%'.$searchKeyword.'%')->get();
+   
+    return view("/clients/home", compact("products","categories"));
+   }
 }
