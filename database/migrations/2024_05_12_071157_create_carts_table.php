@@ -20,7 +20,7 @@ return new class extends Migration {
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->integer('quantity');
-            $table->decimal('unit_price', 10, 2);
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,7 @@ Route::name('users.')->group(function () {
     Route::get('/shop', function () {
         return view('clients.shop');
     });
-    Route::get('/cart', function () {
-        return view('clients.cart');
-    });
+    Route::get('/cart',[CartController::class, 'index']);
     Route::get('/contact', function () {
         return view('clients.contact');
     });
@@ -43,7 +42,8 @@ Route::prefix('/admin')->group(function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $carts = \App\Models\Cart::all();
+    return view('dashboard', compact('carts'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

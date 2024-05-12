@@ -18,13 +18,11 @@ class CartsTableSeeder extends Seeder
             'order_id' => 1,
             'product_id' => 1,
             'quantity' => 1,
-            'unit_price' => 23.23,
         ]);
         \DB::table('carts')->insert([
             'order_id' => 1,
             'product_id' => 2,
             'quantity' => 2,
-            'unit_price' => 12.23,
         ]);
     }
 }

@@ -18,6 +18,7 @@ class OrdersSeeder extends Seeder
             'user_id' => 1,
             'order_date' => now(),
             'total_amount' => 100.00,
+            'shipping'=> 3.00,
         ]);
     }
 }

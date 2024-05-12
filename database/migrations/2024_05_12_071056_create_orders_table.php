@@ -19,7 +19,9 @@ return new class extends Migration {
                 ->onUpdate('cascade')
                 ->onDelete('cascade');           
             $table->dateTime('order_date');
+            $table->enum('status', ['pending', 'processing', 'shipping', 'delivered'])->default('pending');
             $table->decimal('total_amount', 10, 2);
+            $table->decimal('shipping',10,2);
             $table->timestamps();
         });
     }
