@@ -20,8 +20,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{asset('lib/lightbox/css/lightbox.min.css')}}" rel="stylesheet">
-    <link href="{{asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
 
     <!-- Customized Bootstrap Stylesheet -->
@@ -53,7 +53,7 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="home.html" class="navbar-brand">
+                    <a href="{{ url('/') }}" class="navbar-brand">
                         <h1 class="text-primary display-6">Fruitables</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
@@ -87,9 +87,41 @@
                                     class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                                     style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+
+                            @auth
+                                <!-- Example single danger button -->
+                                <div class="btn-group my-auto">
+                                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fas fa-user fa-2x text-primary"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ url('profile') }}">Profile</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                            </form>
+
+                                            <a class="dropdown-item" href="#"
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log
+                                                Out</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @else
+                                <a href="{{ route('login') }}" class="my-auto">
+                                    <i class="fas fa-user fa-2x"></i>
+                                </a>
+                            @endauth
+
+
+
                         </div>
                     </div>
                 </nav>
@@ -229,7 +261,7 @@
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
+        <a href="" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
                 class="fa fa-arrow-up"></i></a>
 
 
@@ -237,9 +269,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="{{ url('lib/waypoints/waypoints.min.js') }}"></script>
+        <script src="url{{ 'lib/lightbox/js/lightbox.min.js' }}"></script>
+        <script src="url{{ 'lib/owlcarousel/owl.carousel.min.js' }}"></script>
 
         <!-- Template Javascript -->
         <script src="{{ asset('js/main.js') }}"></script>

@@ -21,7 +21,7 @@ return new class extends Migration {
                 ->cascadeOnUpdate();
             $table->integer('quantity');
             $table->boolean('is_deleted')->default(false);
-            $table->timestamps();
+            $table->timestamps()->useCurrent();
         });
     }
 
