@@ -17,11 +17,12 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this-> call([
-            CategoriesSeeder::class,
-            ProductsSeeder::class,
-            UsersSeeder::class,
-            OrdersSeeder::class,
-            CartsTableSeeder::class
+            CategorySeeder::class,
+            ProductSeeder::class,
+            UserSeeder::class,
+            OrderSeeder::class,
+            CartSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

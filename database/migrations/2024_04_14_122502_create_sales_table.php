@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('discount_percent');
             $table->date('start_date');
             $table->date('end_date');
-            $table->timestamps();
+            $table->timestamps()->useCurrent();;
         });
     }
 
