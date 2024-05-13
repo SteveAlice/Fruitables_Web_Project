@@ -56,12 +56,12 @@
                 <div class="tab-pane fade {{ $tab == 'update_password' ? 'active show' : ''}}"
                 id="update_password" role="tabpanel">
                     <div class="pd-20 profile-task-wrap">
-                        <form wire:submit.prevent='updatePassword()'>
+                        <form wire:submit='updatePassword()'>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Current Password</label>
-                                        <input type="password" placeholder="Enter current password " wire:model='current_password' class="form-control">
+                                        <input type="password" placeholder="Enter current password " wire:model.live='current_password' class="form-control">
                                         @error('current_password')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -70,7 +70,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">New Password</label>
-                                        <input type="password" placeholder="Enter new password " wire:model='new_password' class="form-control">
+                                        <input type="password" placeholder="Enter new password " wire:model.live='new_password' class="form-control">
                                         @error('new_password')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -79,7 +79,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Confirm new Password</label>
-                                        <input type="password" placeholder="Retype new password " wire:model='new_password_confirmation' class="form-control">
+                                        <input type="password" placeholder="Retype new password " wire:model.live='new_password_confirmation' class="form-control">
                                         @error('new_password_confirmation')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror

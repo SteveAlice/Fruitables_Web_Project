@@ -40,6 +40,8 @@ Route::prefix('seller')->name('seller.')->group(function(){
                 Route::get('/add','addProduct')->name('add-product');
                 Route::get('/get-product-category','getProductCategory')->name('get-product-category');
                 Route::post('/create','createProduct')->name('create-product');
+                Route::get('/edit','editProduct')->name('edit-product');
+                Route::post('/update','updateProduct')->name('update-product');
             });
 
         });
