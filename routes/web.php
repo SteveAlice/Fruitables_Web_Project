@@ -31,6 +31,8 @@ Route::name('user.')->group(function () {
     });
     Route::get('/product/{id}',[ProductController::class, 'showDetail']);
     
+    Route::post('/cart/create/{id}', [CartController::class, 'create'])->name('cart.create');
+    Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
 
 
@@ -38,6 +40,7 @@ Route::name('user.')->group(function () {
         return view('clients.chackout');
     });
 });
+Route::get('/search', [ProductController::class, 'search']);
 
 
 Route::prefix('/admin')->group(function () {

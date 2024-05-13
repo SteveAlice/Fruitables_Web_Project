@@ -56,16 +56,31 @@
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
+
+                                            <form method="POST"
+                                                action="{{ route('user.cart.create', $item->product->id) }}">
+                                                @csrf
+
+                                                <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </form>
+
                                         </div>
                                         <input type="text" class="form-control form-control-sm text-center border-0"
                                             value={{ $item->quantity }}>
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                            <form method="POST"
+                                                action="{{ route('user.cart.update', $item->product->id) }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </form>
+
+                                            {{-- <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                 <i class="fa fa-plus"></i>
-                                            </button>
+                                            </button> --}}
                                         </div>
                                     </div>
                                 </td>
@@ -114,7 +129,7 @@
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Shipping</h5>
                                 <div class="">
-                                    <p class="mb-0">Flat rate: {{ $shipping ?? 0}}</p>
+                                    <p class="mb-0">Flat rate: {{ $shipping ?? 0 }}</p>
                                 </div>
                             </div>
                             <p class="mb-0 text-end">Shipping to Ukraine.</p>

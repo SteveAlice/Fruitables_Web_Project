@@ -8,23 +8,31 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         $products = Product::all();
         $categories = Category::all();
-        return view("/clients/home",compact("products", "categories"));
+        return view("/clients/home", compact("products", "categories"));
     }
-    public function showDetail($id){
+    public function showDetail($id)
+    {
         $product = Product::find($id);
         $categoryName = Category::find($product->category_id)->name;
-        return view("/clients/shop-detail",compact("product", "categoryName"));
+        return view("/clients/shop-detail", compact("product", "categoryName"));
     }
     public function search(Request $request)
-   {
-    $categories = Category::all();
-    $searchKeyword = $request->input('searchKeyword');
-    $products = Product::where('name', 'like', '%'.$searchKeyword.'%')->get();
-   
-    return view("/clients/home", compact("products","categories"));
-   }
+    {
+        $categories = Category::all();
+        $searchKeyword = $request->input('searchKeyword');
+
+        if (!empty($searchKeyword)) {
+            $products = Product::where('name', 'like', '%' . $searchKeyword . '%')->get();
+        } else {
+            $products = Product::all(); 
+        }
+        return view("/clients/shop", compact("products", "categories"));
+    }
+
+
 }

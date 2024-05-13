@@ -152,17 +152,24 @@
                                                     </a>
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                    style="top: 10px; left: 10px;">Fruits</div>
+                                                    style="top: 10px; left: 10px;">{{ $item->category->name }}</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                     <h4>{{ $item->name }}</h4>
                                                     <p>{{ $item->description }}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">${{ $item->price }} /
                                                             {{ $item->unit }}</p>
-                                                        <a href="#"
-                                                            class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                            cart</a>
+
+                                                        <form method="POST"
+                                                            action="{{ route('user.cart.create', $item->id) }}">
+                                                            @csrf
+                                                        
+                                                            <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                Add to cart
+                                                            </button>
+                                                        </form>
+
                                                     </div>
                                                 </div>
                                             </div>

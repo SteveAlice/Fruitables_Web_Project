@@ -34,6 +34,12 @@
 <body>
 
     @section('navbar')
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+        </div>
+        <!-- Spinner End -->
         <!-- Navbar start -->
         <div class="container-fluid fixed-top">
             <div class="container topbar bg-primary d-none d-lg-block">
@@ -137,13 +143,15 @@
                         <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body d-flex align-items-center">
-                        <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords"
-                                aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                    <form action="{{ url('search') }}" method = "GET">
+                    
+                        <div class="modal-body d-flex align-items-center">
+                            <div class="input-group w-75 mx-auto d-flex">
+                                <input type="search" class="form-control p-3" name="searchKeyword" placeholder="keywords" aria-describedby="search-icon-1">
+                                <button id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button> 
+                            </div>
                         </div>
-                    </div>
+                        </form>
                 </div>
             </div>
         </div>
@@ -268,10 +276,10 @@
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
+        <script src="{{ url('lib/easing/easing.min.js') }}"></script>
         <script src="{{ url('lib/waypoints/waypoints.min.js') }}"></script>
-        <script src="url{{ 'lib/lightbox/js/lightbox.min.js' }}"></script>
-        <script src="url{{ 'lib/owlcarousel/owl.carousel.min.js' }}"></script>
+        <script src="{{ url('lib/lightbox/js/lightbox.min.js') }}"></script>
+        <script src="{{ url('lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
         <!-- Template Javascript -->
         <script src="{{ asset('js/main.js') }}"></script>
