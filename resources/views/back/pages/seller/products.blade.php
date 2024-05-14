@@ -27,3 +27,44 @@
 
 @livewire('seller.products')
 @endsection
+@push('stylesheets')
+    <style>
+        .swal2-popup{
+            font-size: .87em;
+        }
+    </style>
+@endpush
+@push('scripts')
+    <script>
+        $(document).on('click', 'a#deleteProductBtn', function(e) {
+            e.preventDefault();
+            var url = "{{ route('seller.product.delete-product') }}";
+            var token = "{{ csrf_token() }}";
+            var product_id = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                html: 'You want to delete this image',
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonColor: '#d33',
+                confirmButtonColor: '#3085d6',
+                width: 300,
+                allowOutsideClick: false,
+            }).then(function(result) {
+                if (result.value) {
+                    $.post(url, { _token: token, product_id: product_id }, function(response) {
+                        toastr.remove();
+                        if (response.status == 1) {
+                            Livewire.dispatch('refreshProductList');
+                            toastr.success(response.msg);
+                        } else {
+                            toastr.error(response.msg);
+                        }
+                    }, 'json');
+                }
+            });
+        });
+    </script>
+@endpush

@@ -73,14 +73,14 @@
                     <select name="subcategory" id="subcategory" class="form-control">
                         <option value="" selected>Not set</option>
                         @foreach ($subcategories as $item)
-                            <option value="{{$item->id}}" {{$item->id == $product->subcategory ? 'selected' : ''}}>
-                                {{$item->subcategory_name}}
-                            </option>
+                        <option value="{{$item->id}}" {{$item->id == $product->subcategory ? 'selected' : ''}}>
+                            {{$item->subcategory_name}}
+                        </option>
 
                         @if (count($item->children) > 0)
-                            @foreach ($item->children as $child)
-                            <option value="{{$child->id}}" {{$child->id == $product->subcategory ? 'selected' : ''}}>-- {{$child->subcategory_name}}</option>
-                            @endforeach
+                        @foreach ($item->children as $child)
+                        <option value="{{$child->id}}" {{$child->id == $product->subcategory ? 'selected' : ''}}>-- {{$child->subcategory_name}}</option>
+                        @endforeach
                         @endif
                         @endforeach
                     </select>
@@ -115,10 +115,63 @@
         <button type="submit" class="btn btn-primary">Update Product</button>
     </div>
 </form>
+<hr>
+<div class="row">
+    <div class="col-12">
+        <div class="card-box min-height-200px pd-20 mb-20">
+            <div class="title-mb-2">
+                <h6>Additional Product Image</h6>
+            </div>
+            <form action="{{route('seller.product.upload-images',['product_id'=>request('id')]) }}" class="dropzone">
+                @csrf
+            </form>
+            <button class="btn btn-outline-primary btn-sm mt-2" id="uploadAdditionalImagesBtn">Upload</button>
+        </div>
+    </div>
+    <div class="box-container mb-2" id="product_images">
+
+    </div>
+</div>
 
 
 @endsection
+@push('stylesheets')
+    <link rel="stylesheet" href="/extra-assets/dropzoneJS/min/dropzone.min.css">
+    <style>
+        .box-container{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        .box-container .box{
+            background: #423838;
+            display: block;
+            width: 110px;
+            height: 110px;
+            position: relative;
+            overflow: hidden;
+        }
+        .box-container .box img{
+            width: 100%;
+            height: auto;
+        }
+
+        .box-container .box a{
+            position: absolute;
+            right: 7px;
+            bottom: 5px;
+        }
+        .swal2-popup{
+            font-size: .87em;
+        }
+    </style>
+@endpush
+
 @push('scripts')
+    <script src="/extra-assets/dropzoneJS/min/dropzone.min.js"></script>
 <script>
     //List sub categories according to the selected category.
     $(document).on('change', 'select#category', function(e) {
@@ -194,5 +247,66 @@
             }
         })
     });
+
+    Dropzone.autoDiscover =false;
+    var myDropzone = new Dropzone('.dropzone', {
+        autoProcessQueue:false,
+        parallelUploads:1,  //Number of files processed at a time
+        addRemoveLinks:true,
+        maxFilesize:2, //2MB
+        acceptedFiles:'image/*',
+        init:function(){
+            thisDz = this;
+            var uploadBtn =document.getElementById('uploadAdditionalImagesBtn');
+            uploadBtn.addEventListener('click', function(){
+                var nFiles = myDropzone.getQueuedFiles().length;
+                thisDz.options.parallelUploads = nFiles;
+                thisDz.processQueue();
+            });
+
+            thisDz.on('queuecomplete', function(){
+                this.removeAllFiles();
+                getProductImages();
+            });
+        }
+    });
+
+    function getProductImages(){
+        var url = "{{route('seller.product.get-product-images',['product_id'=>request('id')]) }}"
+        $.get(url,{}, function(response){
+            $('div#product_images').html(response.data);
+        },'json');
+    }
+
+    $(document).on('click', '#deleteProductImageBtn', function(e){
+        e.preventDefault();
+        var url ="{{route('seller.product.delete-product-image') }}";
+        var token = "{{csrf_token() }}";
+        var image_id = $(this).data("image");
+        swal.fire({
+            title:'Are you sure?',
+            html:'You want to delete this image',
+            showCloseButton:true,
+            showCancelButton:true,
+            cancelButtonText:'Cancel',
+            confirmButtonText:'Yes, Delete',
+            cancelButtonColor: '#d33',
+            confirmButtonColor:'#3085d6',
+            width:300,
+            allowOutsideColor:false,
+        }).then(function(result){
+            if(result.value) {
+                $.post(url, { _token:token, image_id:image_id }, function(response){
+                    toastr.remove();
+                    if(response.status == 1){
+                        getProductImages();
+                        toastr.success(response.msg)
+                    }else{
+                        toastr.error(response.msg)
+                    }
+                },'json');
+            }
+        });
+    })
 </script>
 @endpush

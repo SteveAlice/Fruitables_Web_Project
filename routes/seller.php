@@ -42,6 +42,10 @@ Route::prefix('seller')->name('seller.')->group(function(){
                 Route::post('/create','createProduct')->name('create-product');
                 Route::get('/edit','editProduct')->name('edit-product');
                 Route::post('/update','updateProduct')->name('update-product');
+                Route::post('/upload-images','uploadProductImages')->name('upload-images');
+                Route::get('/get-product-images','getProductImages')->name('get-product-images');
+                Route::post('/delete-product-image','deleteProductImage')->name('delete-product-image');
+                Route::post('/delete-product','deleteProduct')->name('delete-product');
             });
 
         });

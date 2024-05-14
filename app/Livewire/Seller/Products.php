@@ -11,6 +11,9 @@ class Products extends Component
 {
     use WithPagination;
     public $pegPage = 9;
+    protected $listeners = [
+        'refreshProductList' => '$refresh'
+    ];
     public function render()
     {
         return view('livewire.seller.products',[
