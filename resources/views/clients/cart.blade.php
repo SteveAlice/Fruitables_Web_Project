@@ -37,7 +37,7 @@
                     <tbody>
                         {{-- First row --}}
                         @php($subtotal = 0.0)
-                        @forelse ($carts as $item)
+                        @forelse ($carts ?? [] as $item)
                             @php($subtotal += $item->product->price * $item->quantity)
                             <tr>
                                 <th scope="row">

@@ -87,11 +87,14 @@
                                 class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
                                 data-bs-toggle="modal" data-bs-target="#searchModal"><i
                                     class="fas fa-search text-primary"></i></button>
-                            <a href="#" class="position-relative me-4 my-auto">
+                            <a href="{{ route('user.cart') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
                                     class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">@auth
+                                        {{ \Auth::user()->carts()->count() }}
+                                    @endauth
+                                </span>
                             </a>
 
                             @auth
@@ -103,7 +106,10 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ url('profile') }}">Profile</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        @if (\Auth::user()->role == 'admin')
+                                            <li><a class="dropdown-item" href="#">Admin Page</a></li>
+                                        @endif
+
                                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
@@ -144,14 +150,16 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ url('search') }}" method = "GET">
-                    
+
                         <div class="modal-body d-flex align-items-center">
                             <div class="input-group w-75 mx-auto d-flex">
-                                <input type="search" class="form-control p-3" name="searchKeyword" placeholder="keywords" aria-describedby="search-icon-1">
-                                <button id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button> 
+                                <input type="search" class="form-control p-3" name="searchKeyword"
+                                    placeholder="keywords" aria-describedby="search-icon-1">
+                                <button id="search-icon-1" class="input-group-text p-3"><i
+                                        class="fa fa-search"></i></button>
                             </div>
                         </div>
-                        </form>
+                    </form>
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ class CartController extends Controller
         } else {
             $carts = session("carts");
         }
-        if (!$carts->isEmpty()) {
+        if ($carts != null) {
             $shipping = $carts->first()->order->shipping;
         } else {
             $shipping = 0;

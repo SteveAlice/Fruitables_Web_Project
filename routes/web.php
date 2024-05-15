@@ -25,7 +25,7 @@ Route::name('user.')->group(function () {
     Route::get('/shop', function () {
         return view('clients.shop');
     });
-    Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
+    Route::get('/cart',[CartController::class, 'index'])->name('cart');
     Route::get('/contact', function () {
         return view('clients.contact');
     });
