@@ -59,7 +59,7 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="{{ url('/') }}" class="navbar-brand">
+                    <a href="{{ url('') }}" class="navbar-brand">
                         <h1 class="text-primary display-6">Fruitables</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
@@ -115,7 +115,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ url('profile') }}">Profile</a></li>
                                         @if (\Auth::user()->role == 'admin')
-                                            <li><a class="dropdown-item" href="#">Admin Page</a></li>
+                                            <li><a class="dropdown-item" href="/admin">Admin Page</a></li>
                                         @endif
 
                                         <li><a class="dropdown-item" href="#">Something else here</a></li>

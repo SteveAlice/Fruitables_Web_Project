@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +48,7 @@ Route::name('user.')->group(function () {
 });
 
 Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::view('/dashboard', 'admin.index');
+    Route::get('/', [CategoryController::class, 'index'])->name('cart.delete');
 });
 
 
