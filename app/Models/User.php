@@ -48,7 +48,12 @@ class User extends Authenticatable
     }
     public function carts()
     {
-        $currentOrder = $this->orders()->where('id', '1')->first();
+        $allOrder = $this->orders;
+        $currentOrder = $this->orders->where('status', 'pending')->first();
+        if (is_null($currentOrder)) {
+            return collect();
+        }
+        
         return $currentOrder->carts;
     }
 }

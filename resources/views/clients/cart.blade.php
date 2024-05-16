@@ -72,7 +72,7 @@
                                         <div class="input-group-btn">
                                             <form method="POST"
                                                 action="{{ route('user.cart.update', $item->product->id) }}">
-                                                @csrf
+                                                @csrf @method('PUT')
                                                 <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
