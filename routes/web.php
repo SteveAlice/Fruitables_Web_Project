@@ -33,7 +33,7 @@ Route::name('user.')->group(function () {
     Route::get('/product/{id}', [ProductController::class, 'showDetail']);
 
     Route::middleware('auth')->group(function () {
-        Route::get('/cart', [CartController::class, 'index'])->name('cart');
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
         Route::post('/cart/create/{id}', [CartController::class, 'create'])->name('cart.create');
         Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
         Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
