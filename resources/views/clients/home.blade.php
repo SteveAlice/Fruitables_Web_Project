@@ -163,8 +163,9 @@
                                                         <form method="POST"
                                                             action="{{ route('user.cart.create', $item->id) }}">
                                                             @csrf
-                                                        
-                                                            <button class="btn border border-secondary rounded-pill px-3 text-primary">
+
+                                                            <button
+                                                                class="btn border border-secondary rounded-pill px-3 text-primary">
                                                                 <i class="fa fa-shopping-bag me-2 text-primary"></i>
                                                                 Add to cart
                                                             </button>
@@ -231,6 +232,26 @@
     </div>
     <!-- Fruits Shop End-->
 
+    <!-- Pagination -->
+    <ul class="list-group list-group-horizontal justify-content-center list-unstyled">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Pagination End-->
 
     <!-- Featurs Start -->
     <div class="container-fluid service py-5">

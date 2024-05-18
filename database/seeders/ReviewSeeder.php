@@ -19,6 +19,7 @@ class ReviewSeeder extends Seeder
             'product_id' => 1,
             'rating'=> '5',
             'content' => 'This is comment',
+            'created_at' => now(),
         ]);
     }
 }

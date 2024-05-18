@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('image')->default('fruite-item-6.jpg');
             $table->integer('stock')->unsigned()->default(0);
             $table->string('unit')->default('kg');
-            $table->timestamps()->useCurrent();;
+            $table->timestamps();
         });
     }
 
