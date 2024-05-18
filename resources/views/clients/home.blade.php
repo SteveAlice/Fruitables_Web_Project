@@ -233,7 +233,7 @@
     <!-- Fruits Shop End-->
 
     <!-- Pagination -->
-    <ul class="list-group list-group-horizontal justify-content-center list-unstyled">
+    {{-- <ul class="list-group list-group-horizontal justify-content-center list-unstyled">
         <li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -249,8 +249,12 @@
                 <span class="sr-only">Next</span>
             </a>
         </li>
-    </ul>
+    </ul> --}}
 
+    <div class="container-fluid">
+        {{ $products->links('layouts.pagination') }}
+    </div>
+    
     <!-- Pagination End-->
 
     <!-- Featurs Start -->
