@@ -20,18 +20,19 @@
             </div>
         @endif
         @isset($notice)
-                <div class="alert alert-info" role="alert">
-                    {{ $notice }}
-                </div>
-            @endisset
+            <div class="alert alert-info" role="alert">
+                {{ $notice }}
+            </div>
+        @endisset
         <div class="container-fluid py-2">
-            <form id="form" method="POST" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
-                @csrf
+            <form id="form" method="POST" action="{{ route('admin.product.update', $product->id) }}" enctype="multipart/form-data">
+                @csrf @method('PUT')
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <div class="row mb-4">
                     <div class="col">
                         <div data-mdb-input-init class="form-outline">
-                            <input type="text" name="name" id="name" class="form-control" value="{{ $product->name }}"/>
+                            <input type="text" name="name" id="name" class="form-control"
+                                value="{{ $product->name }}" />
                             <label class="form-label">Product name</label>
                         </div>
                     </div>
@@ -41,7 +42,9 @@
                                 <label class="input-group-text">Category</label>
                                 <select class="form-select" id="category" name="category">
                                     @foreach ($categories as $cat)
-                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                        <option value="{{ $cat->id }}"
+                                            {{ $cat->id == $product->category_id ? 'selected' : '' }}>{{ $cat->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -56,13 +59,15 @@
                 <div class="row mb-4">
                     <div class="col">
                         <div data-mdb-input-init class="form-outline">
-                            <input type="number" id="price" name="price" class="form-control" value="{{ $product->price }}"/>
+                            <input type="number" id="price" name="price" class="form-control"
+                                value="{{ $product->price }}" />
                             <label class="form-label">Price</label>
                         </div>
                     </div>
                     <div class="col">
                         <div data-mdb-input-init class="form-outline">
-                            <input type="number" id="stock" name="stock" class="form-control" value="{{ $product->stock }}"/>
+                            <input type="number" id="stock" name="stock" class="form-control"
+                                value="{{ $product->stock }}" />
                             <label class="form-label">Stock</label>
                         </div>
                     </div>
@@ -71,7 +76,7 @@
 
                 <!-- Describption input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <textarea class="form-control" rows="5" id="description" name="description" value="{{ $product->description }}"></textarea>
+                    <textarea class="form-control" rows="5" id="description" name="description">{{ $product->description }}</textarea>
                     <label class="form-label">Description</label>
                 </div>
 
@@ -79,6 +84,7 @@
                     <label for="formFileSm" class="form-label">Upload image</label>
                     <input class="form-control form-control-sm" accept="image/*" type="file" name="image"
                         id="image">
+                    <img id="previewImage" src="{{ asset('/img/' . $product->image) }}" class="mw-100">
                 </div>
 
                 <!-- Submit button -->
@@ -90,52 +96,18 @@
 
         </div>
     </main>
-    {{-- <script>
-        document.getElementById('addButton').addEventListener('click', function(event) {
-            // Validate name
-            const name = document.getElementById('name').value.trim();
-            if (name === '') {
-                alert('Product name is required.');
-                return;
-            }
-
-            // Validate category
-            const category = document.getElementById('category').value;
-            if (category === '') {
-                alert('Category is required.');
-                return;
-            }
-
-            // Validate price
-            const price = document.getElementById('price').value;
-            if (price === '' || isNaN(price) || parseFloat(price) <= 0) {
-                alert('Valid price is required.');
-                return;
-            }
-
-            // Validate stock
-            const stock = document.getElementById('stock').value;
-            if (stock === '' || isNaN(stock) || parseInt(stock) < 0) {
-                alert('Valid stock quantity is required.');
-                return;
-            }
-
-            // Validate description
-            const description = document.getElementById('description').value.trim();
-            if (description === '') {
-                alert('Description is required.');
-                return;
-            }
-
-            // Validate image
-            const image = document.getElementById('image').files[0];
-            if (!image) {
-                alert('Image is required.');
-                return;
-            } else if (!image.type.startsWith('image/')) {
-                alert('Valid image file is required.');
-                return;
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var previewImage = document.getElementById('previewImage');
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
             }
         });
-    </script> --}}
+    </script>
 @endsection

@@ -18,7 +18,7 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 |
 */
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', [ProductController::class, 'indexHome'])->name('home');
 Route::get('/shopdetail', function () {
     return view('/clients/shop-detail');
 });
@@ -48,13 +48,16 @@ Route::name('user.')->group(function () {
 });
 
 Route::prefix('/admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/', [CategoryController::class, 'index'])->name('cart.index');
-    Route::get('/products', [ProductController::class, 'adminIndex'])->name('product.index');
+    Route::view('/', 'admin.index');
+    
+    Route::resource('categories', CategoryController::class);
+
+    Route::get('/products', [ProductController::class, 'index'])->name('product.index');
     Route::get('/products-create', [ProductController::class, 'create'])->name('product.create');
     Route::post('/products-store', [ProductController::class, 'store'])->name('product.store');
     Route::get('/products-edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::put('/products-update/{product}', [ProductController::class, 'update'])->name('product.update');
     Route::delete('/products-destroy/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
-
 });
 
 

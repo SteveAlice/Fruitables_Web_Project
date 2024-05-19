@@ -8,17 +8,19 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function indexHome()
     {
         $products = Product::paginate(12);
         $categories = Category::all();
         return view("/clients/home", compact("products", "categories"));
     }
-    public function adminIndex(){
+    public function index()
+    {
         $products = Product::all();
         return view('admin.products-index', compact("products"));
     }
-    public function create(){
+    public function create()
+    {
         $categories = Category::orderBy('name', 'ASC')->select('id', 'name')->get();
         return view('admin.products-create', compact("categories"));
     }
@@ -42,23 +44,59 @@ class ProductController extends Controller
         $product->description = $request->description;
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
+            $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('img'), $imageName);
             $product->image = $imageName;
         }
         $product->save();
         return redirect()->route('admin.product.index')->with('notice', 'Product added successfully!');
     }
-    public function edit(Product $product){
+    public function edit(Product $product)
+    {
         $categories = Category::orderBy('name', 'ASC')->select('id', 'name')->get();
         return view('admin.products-edit', compact('categories', 'product'));
     }
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => 'required|string|max:155|unique:products,name,' . $product->id,
+            'category' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0.01',
+            'stock' => 'required|integer|min:0',
+            'description' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:10048',
+        ]);
+        $data = $request->only('name', 'category', 'price', 'stock', 'description');
+
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('img'), $imageName);
+            $data['image'] = $imageName;
+            $oldPath = public_path('img/' . $product->image);
+        }
+
+        if (!$product->update($data)) {
+            return redirect()->route('admin.product.index')->with('notice', 'Product Updated Failure!');
+        }
+
+        
+        if (file_exists($oldPath)) {
+            unlink($oldPath);
+        }
+        return redirect()->route('admin.product.index')->with('notice', 'Product updated successfully!');
+    }
     public function destroy(Product $product)
     {
-
-        if (! $product->delete()) {
+        if (!$product->delete()) {
             return redirect()->route('admin.product.index')->with('notice', 'Product deletion failure!');
         }
+
+        $filePath = public_path('img/' . $product->image);
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+
         return redirect()->route('admin.product.index')->with('notice', 'Product removed successfully!');
     }
     public function showDetail($id)
@@ -75,7 +113,7 @@ class ProductController extends Controller
         if (!empty($searchKeyword)) {
             $products = Product::where('name', 'like', '%' . $searchKeyword . '%')->get();
         } else {
-            $products = Product::all(); 
+            $products = Product::all();
         }
         return view("/clients/shop", compact("products", "categories"));
     }
