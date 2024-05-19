@@ -47,8 +47,14 @@ Route::name('user.')->group(function () {
     });
 });
 
-Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/', [CategoryController::class, 'index'])->name('cart.delete');
+Route::prefix('/admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('cart.index');
+    Route::get('/products', [ProductController::class, 'adminIndex'])->name('product.index');
+    Route::get('/products-create', [ProductController::class, 'create'])->name('product.create');
+    Route::post('/products-store', [ProductController::class, 'store'])->name('product.store');
+    Route::get('/products-edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::delete('/products-destroy/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+
 });
 
 
