@@ -50,7 +50,7 @@ Route::name('user.')->group(function () {
 Route::prefix('/admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::view('/', 'admin.index');
     
-    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', CategoryController::class)->except(['show', 'edit']);
 
     Route::get('/products', [ProductController::class, 'index'])->name('product.index');
     Route::get('/products-create', [ProductController::class, 'create'])->name('product.create');

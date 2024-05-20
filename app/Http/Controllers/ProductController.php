@@ -67,7 +67,7 @@ class ProductController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:10048',
         ]);
         $data = $request->only('name', 'category', 'price', 'stock', 'description');
-
+        $oldPath = '';
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('img'), $imageName);
