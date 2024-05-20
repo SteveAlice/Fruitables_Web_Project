@@ -48,7 +48,7 @@ Route::name('user.')->group(function () {
 });
 
 Route::prefix('/admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::view('/', 'admin.index');
+    Route::view('/', 'admin.index')->name('home');
     
     Route::resource('categories', CategoryController::class)->except(['show', 'edit']);
 

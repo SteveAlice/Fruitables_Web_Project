@@ -73,7 +73,7 @@
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('admin.product.index') }}">Products</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Categories</a>
+                                    <a class="nav-link" href="{{ route('admin.categories.index') }}">Categories</a>
                                     <a class="nav-link" href="layout-sidenav-light.html">Orders</a>
                                 </nav>
                             </div>
