@@ -77,6 +77,15 @@
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </form>
+                                            <form id="form" method="POST" action="{{ route('user.cart.update', $item->id) }}"
+                                                enctype="multipart/form-data">
+                                                 @csrf @method('PUT')
+                                                
+                                                 <input type="text" name="name" id="name" class="form-control" value="{{ $item->name }}"/>
+                                                 <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </form>
 
                                             {{-- <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                 <i class="fa fa-plus"></i>

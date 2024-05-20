@@ -14,13 +14,12 @@
                 <div class="col-md-12 col-lg-7">
                     <h4 class="mb-3 text-secondary">100% Organic Foods</h4>
                     <h1 class="mb-5 display-3 text-primary">Organic Veggies & Fruits Foods</h1>
-                    <div class="position-relative mx-auto">
-                        <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number"
-                            placeholder="Search">
-                        <button type="submit"
-                            class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100"
-                            style="top: 0; right: 25%;">Submit Now</button>
-                    </div>
+
+
+                    <a href="{{ route('login') }}">
+                        <button class="btn btn-primary btn-lg border-2 border-secondary rounded-pill text-white ms-3">
+                            Submit Now</button></a>
+
                 </div>
                 <div class="col-md-12 col-lg-5">
                     <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
@@ -237,7 +236,7 @@
     <div class="container-fluid">
         {{ $products->links('layouts.pagination') }}
     </div>
-    
+
     <!-- Pagination End-->
 
     <!-- Featurs Start -->

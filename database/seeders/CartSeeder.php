@@ -24,5 +24,13 @@ class CartSeeder extends Seeder
             'product_id' => 2,
             'quantity' => 2,
         ]);
+
+        for ($i=2; $i < 13; $i++) { 
+            \DB::table('carts')->insert([
+                'order_id' => $i,
+                'product_id' => $i,
+                'quantity' => 2,
+            ]);
+        }
     }
 }

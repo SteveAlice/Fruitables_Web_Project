@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
-use PHPUnit\Framework\Constraint\IsEmpty;
 
 class CartController extends Controller
 {
@@ -51,21 +50,17 @@ class CartController extends Controller
 
         return redirect()->route('home');
     }
-    public function update(Request $request)
+    public function update(Request $request, Cart $cart)
     {
-        $id = $request->input('id');
-        if (\Auth::check()) {
-            $currentOrder = \Auth::user()->orders->where('status', 'pending')->first();
-        } else {
-            return redirect()->route('login');
-        }
-        $cartItem = $currentOrder->carts->where('product_id', $id)->first();
-        if (true) {
+        $change = $request->quality;
+        $currentOrder = \Auth::user()->orders->where('status', 'pending')->first();
 
-            $cartItem->update(['quantity' => $cartItem->quantity + 1]);
-        } else {
-            $cartItem->update(['quantity' => $cartItem->quantity - 1]);
-        }
+        // if (true) {
+
+        //     $cartItem->update(['quantity' => $cartItem->quantity + 1]);
+        // } else {
+        //     $cartItem->update(['quantity' => $cartItem->quantity - 1]);
+        // }
 
         return redirect()->route('user.cart.index');
     }
