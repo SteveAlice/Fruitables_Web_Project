@@ -30,6 +30,7 @@
                         <th>Image</th>
                         <th>Category</th>
                         <th>Price</th>
+                        <th>Stock</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -42,6 +43,7 @@
                                     style="max-width: 120px; max-height: 120px"></td>
                             <td>{{ $item->category->name }}</td>
                             <th>${{ $item->price }}</th>
+                            <th>{{ $item->stock }}.{{ $item->unit }}</th>
                             <td class="d-flex justify-content-center mt-md-4">
                                 
 

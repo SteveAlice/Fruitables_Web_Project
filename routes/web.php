@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,9 +20,6 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 */
 
 Route::get('/', [ProductController::class, 'indexHome'])->name('home');
-Route::get('/shopdetail', function () {
-    return view('/clients/shop-detail');
-});
 
 Route::name('user.')->group(function () {
     Route::get('/shop', function () {
@@ -31,16 +29,18 @@ Route::name('user.')->group(function () {
     Route::get('/contact', function () {
         return view('clients.contact');
     });
-    Route::get('/product/{id}', [ProductController::class, 'showDetail']);
+    Route::get('/product/{id}', [ProductController::class, 'show']);
 
     Route::middleware('auth')->group(function () {
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
         Route::post('/cart/create/{id}', [CartController::class, 'create'])->name('cart.create');
-        Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+        // Route::put('/cart/update/{cart}', [CartController::class, 'update'])->name('cart.update');
+        Route::resource('carts', CategoryController::class)->only('update');
         Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
     });
 
-
+    Route::get('/noticlr', [OrderController::class, 'notify'])->name('noti.clear');
+    Route::get('/notiemail', [ProductController::class, 'setEmailNoti'])->name('email.noti');
 
     Route::get('/checkout', function () {
         return view('clients.chackout');
@@ -58,6 +58,9 @@ Route::prefix('/admin')->name('admin.')->middleware(['auth', 'admin'])->group(fu
     Route::get('/products-edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
     Route::put('/products-update/{product}', [ProductController::class, 'update'])->name('product.update');
     Route::delete('/products-destroy/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+    Route::resource('orders', OrderController::class)->only(['index', 'update']);
+    Route::get('/order-detail/{id}', [OrderController::class, 'show'])->name('orders.show')->middleware('order')->withoutMiddleware('admin');
 });
 
 

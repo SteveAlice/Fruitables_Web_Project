@@ -21,11 +21,38 @@ class OrderSeeder extends Seeder
             'shipping'=> 3.00,
         ]);
 
-        for ($i=2; $i < 13; $i++) { 
+        for ($i=1; $i < 5; $i++) { 
             \DB::table('orders')->insert([
                 'user_id' => 1,
                 'order_date' => now(),
                 'total_amount' => 0.00,
+                'shipping'=> 3.00,
+            ]);
+        }
+        for ($i=1; $i < 5; $i++) { 
+            \DB::table('orders')->insert([
+                'user_id' => 1,
+                'order_date' => now(),
+                'total_amount' => 100.00,
+                'status' => 'shipping',
+                'shipping'=> 3.00,
+            ]);
+        }
+        for ($i=1; $i < 5; $i++) { 
+            \DB::table('orders')->insert([
+                'user_id' => 1,
+                'order_date' => now(),
+                'total_amount' => 230.00,
+                'status' => 'delivered',
+                'shipping'=> 3.00,
+            ]);
+        }
+        for ($i=1; $i < 5; $i++) { 
+            \DB::table('orders')->insert([
+                'user_id' => 1,
+                'order_date' => now(),
+                'total_amount' => 230.00,
+                'status' => 'processing',
                 'shipping'=> 3.00,
             ]);
         }

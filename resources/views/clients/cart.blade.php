@@ -54,42 +54,32 @@
                                     <p class="mb-0 mt-4">{{ $item->product->price }} $</p>
                                 </td>
                                 <td>
-                                    <div class="input-group quantity mt-4" style="width: 100px;">
-                                        <div class="input-group-btn">
+                                    <div class="d-flex mt-4" style="width: 100px;">
+                                        <div class="">
 
                                             <form method="POST"
-                                                action="{{ route('user.cart.create', $item->product->id) }}">
-                                                @csrf
+                                                action="{{ route('user.carts.update',$item->id)}}" enctype="multipart/form-data">
+                                                @csrf @method('PUT')
 
-                                                <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                    <i class="fa fa-minus"></i>
+                                                <input type="hidden" name="quality" class="form-control" value="1"/>
+                                                <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                    <i class="fa fa-minus"></i> 
                                                 </button>
                                             </form>
 
                                         </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0"
-                                            value={{ $item->quantity }}>
-                                        <div class="input-group-btn">
-                                            <form method="POST"
-                                                action="{{ route('user.cart.update', $item->product->id) }}">
-                                                @csrf @method('PUT')
-                                                <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </form>
-                                            <form id="form" method="POST" action="{{ route('user.cart.update', $item->id) }}"
-                                                enctype="multipart/form-data">
-                                                 @csrf @method('PUT')
-                                                
-                                                 <input type="text" name="name" id="name" class="form-control" value="{{ $item->name }}"/>
-                                                 <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </form>
+                                        <p class="text-center border-0 bg-transparent mx-3">
+                                            {{ $item->quantity }}</p>
 
-                                            {{-- <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button> --}}
+                                        <div class="">
+                                            <form method="POST"
+                                                action="{{ route('user.carts.update',$item->id)}}" enctype="multipart/form-data">
+                                                @csrf @method('PUT')
+
+                                                <input type="hidden" name="quality" class="" value="1"/>
+                                                <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                    <i class="fa fa-plus"></i></button>
+                                            </form>
                                         </div>
                                     </div>
                                 </td>
@@ -97,6 +87,7 @@
                                     <p class="mb-0 mt-4">{{ $item->product->price * $item->quantity }}$</p>
                                 </td>
                                 <td>
+                                    
                                     <form method="POST" action="{{ route('user.cart.delete', $item->id) }}">
                                         @csrf
                                         @method('DELETE')

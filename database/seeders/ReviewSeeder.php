@@ -17,9 +17,18 @@ class ReviewSeeder extends Seeder
         \DB::table('reviews')->insert([
             'user_id' => 1,
             'product_id' => 1,
-            'rating'=> '5',
-            'content' => 'This is comment',
+            'rating'=> '4',
+            'content' => 'This is review',
             'created_at' => now(),
         ]);
+        for ($i=2; $i < 4; $i++) { 
+            \DB::table('reviews')->insert([
+                'user_id' => 1,
+                'product_id' => 1,
+                'rating'=> '0',
+                'content' => 'This is comment',
+                'created_at' => now(),
+            ]);
+        }
     }
 }

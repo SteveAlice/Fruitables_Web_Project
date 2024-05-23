@@ -52,17 +52,17 @@ class CartController extends Controller
     }
     public function update(Request $request, Cart $cart)
     {
-        $change = $request->quality;
-        $currentOrder = \Auth::user()->orders->where('status', 'pending')->first();
+        dd("yes pls");
+        $request->validate([
+            'name' => 'required|string|max:155|unique:categories,name,'. $cart->name,
+        ]);
 
-        // if (true) {
-
-        //     $cartItem->update(['quantity' => $cartItem->quantity + 1]);
-        // } else {
-        //     $cartItem->update(['quantity' => $cartItem->quantity - 1]);
-        // }
-
-        return redirect()->route('user.cart.index');
+        $data = $cart->only('name');
+        
+        if (! $cart->update($data)) {
+            return redirect()->route('user.cart.index')->with('notice', 'Category Updated failure!!');
+        }
+        return redirect()->route('user.cart.index')->with('notice', 'Category Updated successfully!');
     }
 
     public function delete($id)

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,7 +28,6 @@ class ProductController extends Controller
     }
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string|max:155|unique:products',
             'category' => 'required|exists:categories,id',
@@ -49,6 +50,27 @@ class ProductController extends Controller
             $product->image = $imageName;
         }
         $product->save();
+
+        $users = User::where('noti', true)->get();
+
+
+        $details = [
+            'title' => 'Mail from Fruitables',
+            'body' => 'New Product. Check Now!'
+        ];
+        if ($users->count() > 0) {
+            foreach ($users as $user) {
+                Mail::send([], [], function ($message) use ($user, $details) {
+                    $message->to($user->email)
+                        ->subject($details['title'])
+                        ->text($details['body']);
+                });
+            }
+
+        }
+
+
+
         return redirect()->route('admin.product.index')->with('notice', 'Product added successfully!');
     }
     public function edit(Product $product)
@@ -79,7 +101,7 @@ class ProductController extends Controller
             return redirect()->route('admin.product.index')->with('notice', 'Product Updated Failure!');
         }
 
-        
+
         if (file_exists($oldPath)) {
             unlink($oldPath);
         }
@@ -99,11 +121,11 @@ class ProductController extends Controller
 
         return redirect()->route('admin.product.index')->with('notice', 'Product removed successfully!');
     }
-    public function showDetail($id)
+    public function show($id)
     {
         $product = Product::find($id);
-        $categoryName = Category::find($product->category_id)->name;
-        return view("/clients/shop-detail", compact("product", "categoryName"));
+        $sameCategory = Product::where('category_id', $product->category_id)->get();
+        return view("/clients/shop-detail", compact("product", "sameCategory"));
     }
     public function search(Request $request)
     {
@@ -116,5 +138,13 @@ class ProductController extends Controller
             $products = Product::all();
         }
         return view("/clients/shop", compact("products", "categories"));
+    }
+    public function setEmailNoti()
+    {
+        
+        $userId = \Auth::id();
+        User::where('id', $userId)->update(['noti' => true]);
+
+        return redirect()->back();
     }
 }

@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Notification extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'status', 
-    ];
-    public function carts()
-    {
-        return $this->hasMany(Cart::class);
-    }
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
+    public function unread()
+    {
+        return Notification::where('read', false)->count();
+    }
 }

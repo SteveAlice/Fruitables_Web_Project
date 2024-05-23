@@ -12,19 +12,16 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')
-                ->constrained()
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->enum('rating', ['0','1','2','3','4','5']);
-            $table->string('content');
-            $table->timestamp('created_at')->useCurrent();
+            $table->string('order');
+            $table->string('message');
+            $table->boolean('read')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -36,8 +33,8 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->dropForeign(['user_id', 'product_id']);
+            $table->dropForeign(['user_id']);
         });
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('notifications');
     }
 };

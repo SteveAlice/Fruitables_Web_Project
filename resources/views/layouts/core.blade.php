@@ -29,6 +29,7 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @yield('import')
 </head>
 
 <body>
@@ -71,15 +72,6 @@
                             <a href="{{ url('/') }}" class="nav-item nav-link active">Home</a>
                             <a href="{{ url('/shop') }}" class="nav-item nav-link">Shop</a>
                             <a href="{{ url('/shopdetail') }} " class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="{{ url('/cart') }}" class="dropdown-item">Cart</a>
-                                    <a href="{{ url('/checkout') }}" class="dropdown-item">Chackout</a>
-                                    <a href="{{ url('/testimonial') }}" class="dropdown-item">Testimonial</a>
-                                    <a href="{{ url('/error') }}" class="dropdown-item">404 Page</a>
-                                </div>
-                            </div>
                             <a href="{{ url('/contact') }}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
@@ -87,6 +79,33 @@
                                 class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
                                 data-bs-toggle="modal" data-bs-target="#searchModal"><i
                                     class="fas fa-search text-primary"></i></button>
+                            @auth
+                                <div class="nav-item dropdown">
+                                    <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                                            class="fa-solid fa-bell fa-2x"></i>
+                                        @if (\Auth::user()->unreadNotisCount() != 0)
+                                        <a href="{{ route('user.noti.clear')}}">
+                                            <span
+                                                class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white px-1"
+                                                style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                                {{ \Auth::user()->unreadNotisCount() }}
+                                            </span>
+                                        </a>
+                                            
+                                        @endif
+
+                                    </a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        @forelse (\Auth::user()->notifications ?? [] as $item)
+                                            <a href="{{ url('/admin/order-detail/' . "$item->order") }}"
+                                                class="dropdown-item">{{ $item->message }}</a>
+                                        @empty
+                                            Not any notifications at this time..
+                                        @endforelse
+                                    </div>
+                                </div>
+                            @endauth
+
                             <a href="{{ route('user.cart.index') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 @auth
@@ -95,12 +114,8 @@
                                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                                             style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
                                             {{ \Auth::user()->carts()->count() }}
-
                                         </span>
                                     @endif
-
-
-
                                 @endauth
 
                             </a>
@@ -118,7 +133,7 @@
                                             <li><a class="dropdown-item" href="{{ url('/admin') }}">Admin Page</a></li>
                                         @endif
 
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('user.email.noti') }}">{{\Auth::user()->noti == true ? "Off" : "On"}}: Receive Notifications to Email</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

@@ -47,6 +47,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
     public function carts()
     {
         $allOrder = $this->orders;
@@ -56,5 +60,9 @@ class User extends Authenticatable
         }
         
         return $currentOrder->carts;
+    }
+    public function unreadNotisCount()
+    {
+        return $this->notifications()->where('read', false)->count();
     }
 }
