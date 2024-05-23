@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 
@@ -39,9 +40,11 @@ Route::name('user.')->group(function () {
         Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
     });
 
+
     Route::get('/noticlr', [OrderController::class, 'notify'])->name('noti.clear');
     Route::get('/notiemail', [ProductController::class, 'setEmailNoti'])->name('email.noti');
 
+    Route::post('/reviews-store', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/checkout', function () {
         return view('clients.chackout');
     });

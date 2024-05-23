@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->enum('rating', ['0','1','2','3','4','5']);
             $table->string('content');
             $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

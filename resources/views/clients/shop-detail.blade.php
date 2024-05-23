@@ -147,7 +147,7 @@
                                                 class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;"
                                                 alt="">
                                             <div class="">
-                                                <p class="mb-2" style="font-size: 14px;">{{$item->created_at}}</p>
+                                                <p class="mb-2" style="font-size: 14px;">{{ $item->created_at }}</p>
                                                 <div class="d-flex justify-content-between">
                                                     <h5>{{ $item->user->name }}</h5>
                                                     <div class="d-flex mb-3 ms-3">
@@ -182,19 +182,30 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="#">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ route('user.review.store') }}">
+                            @csrf
                             <h4 class="mb-5 fw-bold">Leave a Reply</h4>
                             <div class="row g-4">
 
                                 <div class="col-lg-10">
                                     <div class="border-bottom rounded my-4">
-                                        <textarea name="" id="" class="form-control border-0" cols="30" rows="4"
-                                            placeholder="Your Comment" spellcheck="false"></textarea>
+                                        <textarea name="content" class="form-control border-0" cols="30" rows="4"
+                                            placeholder="Your Comment"></textarea>
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="d-flex justify-content-between py-3 mb-5">
-                                        
+
                                         <div class="d-flex align-items-center">
                                             <p class="mb-0 me-3">Please rate:</p>
 
@@ -209,11 +220,17 @@
                                                     id="2"><label for="2">☆</label>
                                                 <input type="radio" name="rating" value="1"
                                                     id="1"><label for="1">☆</label>
+                                                <input type="radio" name="rating" value="0" id="0"
+                                                    checked>
                                             </div>
                                         </div>
-                                        <a href="#"
+                                        <button type="submit"
+                                            class="btn border border-secondary text-primary rounded-pill px-4 py-3"><i
+                                                class="fa-solid fa-plus"></i> Post
+                                            Comment</button>
+                                        {{-- <a href="#"
                                             class="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post
-                                            Comment</a>
+                                            Comment</a> --}}
                                     </div>
                                 </div>
                             </div>
